@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STAND OFF | 이게제프 스튜디오</title>
+<meta name="description" content="사람 1명과 로컬 AI 5명의 6인 마피아 게임">
+<meta property="og:title" content="STAND OFF | 이게제프 스튜디오">
+<meta property="og:description" content="사람 1명과 로컬 AI 5명의 6인 마피아 게임">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gngc-5-team.github.io/igejeff-studio/games/standoff.html">
+<meta property="og:image" content="https://gngc-5-team.github.io/igejeff-studio/assets/og/standoff.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#ecebe6">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111110'/%3E%3Crect x='11' y='7' width='15' height='11' rx='2' fill='%23a5a49e'/%3E%3Crect x='6' y='13' width='15' height='11' rx='2' fill='%23ecebe6'/%3E%3C/svg%3E">
+<link rel="preload" href="../assets/fonts/site.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/fonts/pretendard/pretendardvariable-dynamic-subset.css">
+<link rel="stylesheet" href="../styles.css">
+<script src="../site.js" defer></script>
+</head>
+<body>
+<header class="wrap bar">
+  <a class="bar__home" href="../index.html">이게제프 스튜디오</a>
+  <nav class="bar__nav" aria-label="사이트 메뉴"><a href="../games.html" aria-current="page">게임</a><a href="../studio.html">스튜디오</a></nav>
+</header>
+
+<main>
+  <div class="wrap">
+    <a class="crumb" href="../games.html">← 게임 목록</a>
+    <div class="ghero">
+      <div class="ghero__text">
+        <p class="label">실험 04 · 완료, 코드 공개</p>
+        <h1>STAND OFF</h1>
+        <p class="ghero__line">사람 1명과 로컬 AI 5명의 6인 마피아 게임</p>
+        <div class="actions"><a class="pill" href="https://github.com/gngc-5-team/MafiaAI" rel="noopener">GitHub에서 코드 보기</a></div><p class="ghero__note">로컬 LLM을 함께 띄워야 해서 웹에서 바로 할 수 없습니다.</p>
+      </div>
+      <div class="ghero__art"><img src="../assets/img/standoff-title.webp" width="1400" height="879" alt="STAND OFF 타이틀 화면. 붉은 제목과 다섯 인물"></div>
+    </div>
+    <dl class="specs"><div><dt>기간</dt><dd>2박 3일, 2026.07</dd></div><div><dt>인원</dt><dd>4명, 개발 2 · 아트 2</dd></div><div><dt>플랫폼</dt><dd>PC, Unity 6, 로컬 LLM</dd></div><div><dt>결과</dt><dd>GNGC 게임잼 제출, 코드 공개</dd></div></dl>
+  </div>
+  <figure class="said-band" style="--tone:#3a0d12"><div class="wrap"><figcaption>들은 말 · 게임잼 심사 현장</figcaption><blockquote>게임이 너무 친절하지 않았다. 튜토리얼이 필요했다.</blockquote></div></figure>
+<div class="wrap rows"><section class="row" id="intro"><h2 class="row__label">소개</h2><div><div class="prose"><p>저택을 돌며 같은 방의 AI와 대화하고, 낮에는 토론과 투표, 밤에는 역할 능력을 씁니다. AI마다 역할과 성격이 달라 판마다 대화가 바뀝니다.</p>
+<div class="shots shots--one"><img src="../assets/img/standoff-vote.webp" width="1400" height="879" alt="STAND OFF 투표 화면. AI 인물 카드 다섯 장 중 일부에 붉은 X 표시" loading="lazy"></div></div></div></section><section class="row" id="retro"><h2 class="row__label">회고</h2><div><div class="prose"><p>심사위원들이 무엇을 해야 할지 혼동했습니다. AI 대사가 잘 나오는 것과 사람이 규칙을 이해하는 것은 다른 문제였습니다.</p>
+<p>게임잼 뒤에 튜토리얼을 넣었고, 뒤이은 패링하세요!에도 6단계 튜토리얼과 이탈 기록을 넣었습니다. 한 게임에서 들은 말이 다음 게임의 조건이 된 사례입니다.</p></div></div></section><section class="row" id="how"><h2 class="row__label">만든 방식</h2><div><dl class="facts"><div><dt>AI가 말하고, 판정은 코드가 한다</dt><dd>대사는 로컬 LLM이 만들고, 투표와 보호와 승패는 C# 코드가 확정합니다. 생성에 실패해도 게임 규칙은 바뀌지 않습니다.</dd></div><div><dt>확인한 것</dt><dd>8GB VRAM 목표에 맞춰 실제 게임 프롬프트 5종을 2회씩 비교해 모델을 골랐습니다(로드 약 5.7GB). 한 판 완주와 투표 JSON을 확인했습니다.</dd></div><div><dt>아직 모르는 것</dt><dd>오류율은 수치로 재지 않았고, Windows 8GB GPU 실기기 검증도 남았습니다.</dd></div><div><dt>만든 사람</dt><dd>우서혜, 이민희(아트), 문종훈, 강유민(개발)</dd></div></dl><div class="links"><a class="go" href="https://github.com/gngc-5-team/MafiaAI/blob/605458ba2b08d3df77e39bef4e4ba639787e1718/Assets/MafiaAI/Scripts/Core/GameRules.cs#L60-L159" rel="noopener">판정 코드</a><a class="go" href="https://github.com/gngc-5-team/MafiaAI/blob/605458ba2b08d3df77e39bef4e4ba639787e1718/Assets/MafiaAI/Scripts/LLM/OllamaClient.cs#L55-L102" rel="noopener">LLM 호출 코드</a></div></div></section></div>
+  <div class="wrap">
+    <nav class="pager" aria-label="다른 게임">
+      <a class="pager__prev" href="debug-master.html">← 디버그 마스터</a>
+      <a class="pager__next" href="redhood.html"><small>다음 게임</small><strong>RedHood&#x27;s BasDeck</strong></a>
+    </nav>
+  </div>
+</main>
+<footer class="wrap foot">
+  <div class="foot__row">
+    <ul class="foot__links"><li><a href="../games.html">게임</a></li><li><a href="../studio.html">스튜디오</a></li><li><a href="https://github.com/gngc-5-team" rel="noopener">GitHub</a></li><li><a href="https://itch.io/jam/level0-firstjam-gaenojam" rel="noopener">개노잼 itch.io</a></li></ul>
+    <p>이게제프 스튜디오 · 대구대학교 · 법인 설립 전 학생 창업팀</p>
+  </div>
+  <p class="foot__note">Roblox 수치는 2026.11.05 공개 수치입니다.</p>
+</footer>
+</body>
+</html>
