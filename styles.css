@@ -47,7 +47,7 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; letter-spacing: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
 [hidden] { display: none !important; }
-main { flex: 1; }
+main { flex: 1; overflow-x: clip; }
 
 .wrap { width: min(1680px, 100% - 2 * var(--gutter)); margin-inline: auto; }
 .label { font-size: 14px; font-weight: 500; letter-spacing: -.005em; color: var(--ink-2); }
@@ -76,8 +76,8 @@ main { flex: 1; }
 
 /* 첫 화면 */
 .hero {
-  --mark: min(26.6vw, 43svh, 486px);
-  --card: min(50vw, calc((100svh - 192px - var(--mark)) / .84 * 16 / 9));
+  --side: clamp(280px, 21vw, 380px);
+  --gap: clamp(28px, 3vw, 52px);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -85,21 +85,22 @@ main { flex: 1; }
   padding-bottom: 4px;
 }
 .hero::before { content: ""; position: absolute; inset: -52px 0 0; z-index: -1; pointer-events: none; background: repeating-linear-gradient(to right, var(--faint) 0 1px, transparent 1px calc(100% / 6)); }
-.mark { display: flex; justify-content: space-between; font-size: var(--mark); font-weight: 720; line-height: 1; letter-spacing: 0; user-select: none; }
-.mark__l { display: block; overflow: hidden; padding-block: .01em .05em; }
+.mark { position: absolute; top: 2px; left: 0; z-index: 2; display: flex; font-size: clamp(52px, 4.8vw, 76px); font-weight: 720; line-height: 1; letter-spacing: 0; user-select: none; }
+.mark__l { display: block; overflow: hidden; margin-right: -.035em; padding-block: .01em .05em; }
 .mark__l > span { display: block; animation: mark-up 1s var(--ease) both; }
 .mark__l:nth-child(2) > span { animation-delay: .05s; }
 .mark__l:nth-child(3) > span { animation-delay: .1s; }
 .mark__l:nth-child(4) > span { animation-delay: .15s; }
 @keyframes mark-up { from { transform: translateY(102%); } to { transform: none; } }
 
-.stage { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) var(--card) minmax(0, 1fr); gap: clamp(24px, 2.6vw, 44px); align-items: end; margin-top: calc(var(--card) * 9 / 16 * -.16); flex: 1; align-content: start; }
+/* 카드 너비: 왼쪽 칸을 뺀 나머지와, 화면 높이에 들어가는 16:9 너비 중 작은 값. 254px은 상단 메뉴, 뒷카드 여유, 카드 아래 줄, 숫자 줄의 높이 합이다 */
+.stage { position: relative; z-index: 1; flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) min(calc(100% - var(--side) - var(--gap)), calc((100svh - 254px) * 16 / 9)); grid-template-rows: minmax(0, 1fr) auto; column-gap: var(--gap); }
 .say, .now { animation: fade-up .9s .3s var(--ease) both; }
 .deck { animation: deck-in 1s .1s var(--ease) both; }
 @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes deck-in { from { opacity: 0; transform: translateY(36px) scale(.97); } to { opacity: 1; transform: none; } }
 
-.say { display: grid; gap: 14px; container-type: inline-size; }
+.say { grid-column: 1; grid-row: 1; align-self: end; display: grid; gap: 14px; container-type: inline-size; }
 .say__q { font-size: 15.5px; line-height: 1.45; font-weight: 500; color: var(--ink-2); }
 /* 둘째 줄이 칸 너비 안에 들어가도록 칸 너비에 맞춰 글자 크기를 정한다 */
 .say__a { font-size: clamp(24px, 2.05vw, 34px); font-size: min(34px, 9.5cqi); font-weight: 680; line-height: 1.22; letter-spacing: -.038em; }
@@ -107,14 +108,14 @@ main { flex: 1; }
 .say .actions { margin-top: 6px; }
 
 /* 게임 타이틀 더미 */
-.deck { position: relative; aspect-ratio: 16 / 9; perspective: 1500px; }
+.deck { grid-column: 2; grid-row: 1; align-self: end; position: relative; aspect-ratio: 16 / 9; margin-top: 44px; perspective: 2600px; }
 .deck__tilt { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); }
 .card { position: absolute; inset: 0; display: block; overflow: hidden; border-radius: var(--radius); background: #000; box-shadow: 0 0 0 2px var(--paper), var(--shadow); transition: transform .85s var(--ease), opacity .45s linear; transform-origin: 50% 60%; backface-visibility: hidden; }
 .card img { width: 100%; height: 100%; object-fit: cover; }
 .card::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .16); background: radial-gradient(circle at var(--gx, 30%) var(--gy, 16%), rgb(255 255 255 / .2), transparent 46%); }
 .card[data-pos="0"] { z-index: 3; }
-.card[data-pos="1"] { z-index: 2; transform: translate3d(5.5%, -6.5%, -16px) rotate(2.8deg) scale(.97); }
-.card[data-pos="2"] { z-index: 1; transform: translate3d(-5.5%, -8.5%, -32px) rotate(-3.2deg) scale(.95); }
+.card[data-pos="1"] { z-index: 2; transform: translate3d(3.2%, -5%, -16px) rotate(1.8deg) scale(.975); }
+.card[data-pos="2"] { z-index: 1; transform: translate3d(-3.2%, -6.5%, -32px) rotate(-2deg) scale(.955); }
 .card[data-pos="rest"] { z-index: 0; opacity: 0; pointer-events: none; transform: translate3d(0, -12%, -48px) scale(.92); }
 .card[data-pos="out"] { z-index: 4; opacity: 0; pointer-events: none; transform: translate3d(-24%, 16%, 40px) rotate(-7deg); }
 .card.no-anim { transition: none; }
@@ -137,6 +138,18 @@ main { flex: 1; }
 .key { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font-size: 14px; transition: background .2s, color .2s, border-color .2s; }
 .key:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 .key svg { width: 12px; height: 12px; fill: currentColor; }
+/* 넓은 화면: 카드 바로 아래에 한 줄로 */
+@media (min-width: 961px) {
+  .now { grid-column: 2; grid-row: 2; display: flex; align-items: center; gap: clamp(16px, 2vw, 32px); padding-top: 16px; }
+  .now__count { flex: none; }
+  .now__clock { flex: none; width: 56px; }
+  .now__text { flex: 1; min-width: 0; margin-top: 0; }
+  .now__go { flex: none; margin-top: 0; }
+  .now__keys { flex: none; margin-top: 0; }
+}
+@media (min-width: 961px) and (max-width: 1120px) {
+  .now__clock, .now__go { display: none; }
+}
 
 /* 한눈에 보는 숫자 */
 .proof { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(18px, 2.6svh, 30px); border-top: 1px solid var(--line); animation: fade-up .9s .45s var(--ease) both; }
@@ -364,11 +377,12 @@ main { flex: 1; }
   .team { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 960px) {
-  .hero { --card: min(100%, 720px); min-height: 0; overflow-x: clip; }
-  .stage { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: -1.5vw; align-items: start; gap: 20px 28px; }
-  .deck { grid-column: 1 / -1; order: 1; width: min(100%, 760px); justify-self: center; }
+  .hero { min-height: 0; overflow-x: clip; }
+  .mark { position: static; margin-block: 4px 2px; font-size: clamp(44px, 9vw, 64px); }
+  .stage { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; align-items: start; gap: 20px 28px; }
+  .deck { grid-column: 1 / -1; grid-row: auto; order: 1; width: min(100%, 760px); justify-self: center; margin-top: clamp(24px, 6vw, 44px); }
   .now { order: 2; }
-  .say { order: 3; }
+  .say { grid-column: auto; grid-row: auto; order: 3; align-self: start; }
   .say__a { font-size: clamp(22px, 3.4vw, 28px); }
   .feat, .shelf, .ghero, .ledger-wrap { grid-template-columns: minmax(0, 1fr); }
   .peek { display: none; }
