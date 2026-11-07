@@ -301,7 +301,15 @@
       });
     }
 
+    // 목차로 이동한 직후에는 고른 칸을 유지한다. 짧은 섹션은 판정선에 닿지 않아 다음 칸이 켜지기 때문이다
+    var pinnedUntil = 0;
+    function pin(id, ms) {
+      pinnedUntil = Date.now() + ms;
+      mark(id);
+    }
+
     var observer = new IntersectionObserver(function (entries) {
+      if (Date.now() < pinnedUntil) return;
       entries.forEach(function (entry) {
         if (entry.isIntersecting) mark(entry.target.id);
       });
@@ -310,6 +318,8 @@
     links.forEach(function (link) {
       var section = document.querySelector(link.getAttribute('href'));
       if (section) observer.observe(section);
+      link.addEventListener('click', function () { pin(link.getAttribute('href').slice(1), 1200); });
     });
+    if (nav.querySelector('a[href="' + location.hash + '"]')) pin(location.hash.slice(1), 2500); // 페이지를 읽어 들인 뒤 스크롤이 끝날 때까지
   }
 })();

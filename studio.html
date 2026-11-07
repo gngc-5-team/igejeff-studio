@@ -35,44 +35,94 @@
   </div>
   <nav class="lnav" data-lnav aria-label="이 페이지 목차"><ul class="wrap"><li><a href="#why">문제와 방식</a></li><li><a href="#way">일하는 방식</a></li><li><a href="#matrix">실험 조건표</a></li><li><a href="#tech">기술</a></li><li><a href="#results">성과</a></li><li><a href="#rules">배운 것</a></li><li><a href="#next">다음 6개월</a></li><li><a href="#team">팀</a></li></ul></nav>
   <div class="wrap"><section class="ssec" id="why" aria-labelledby="why-t"><p class="ssec__label">문제와 방식</p><h2 id="why-t">재미와 고객은 만들어 보기 전에 알 수 없습니다.</h2>
-<div class="grid-2">
-  <div class="cell"><h3>문제</h3><p>작은 팀이 한 게임에 오래 걸었다가 틀리면 남는 것이 없습니다. 게임은 계속 쏟아지고, 기능은 AI로 금방 베껴집니다. Steam의 액션 로그라이크 태그 게임만 최근 3년 동안 8,179건이 나왔습니다.</p><p class="source">SteamDB, 2026.08.22 조회</p></div>
-  <div class="cell"><h3>방식</h3><p>게임마다 고객층, 플랫폼, 제작 기간, 팀 구성, AI를 쓰는 범위를 바꿉니다. 어떤 조건에서 재미와 반응이 나오는지 기록하고, 반응이 좋은 게임에 인력과 자원을 몰아줍니다. 로블록스 개발도 이 실험 가운데 하나입니다.</p></div>
+<div class="why">
+  <div class="cell">
+    <h3>문제</h3>
+    <p class="why__num">8,179건</p>
+    <p class="why__cap">최근 3년, Steam 액션 로그라이크 태그 게임</p>
+    <ul class="why__list"><li>게임은 쏟아지고, 기능은 AI로 금방 베껴집니다.</li><li>한 게임에 오래 걸었다가 틀리면 남는 것이 없습니다.</li></ul>
+    <p class="source">SteamDB, 2026.08.22 조회</p>
+  </div>
+  <div class="cell">
+    <h3>방식</h3>
+    <ol class="how">
+      <li><b>바꾼다</b><div class="how__tags"><span>게임마다</span><ul class="tags"><li>고객층</li><li>플랫폼</li><li>제작 기간</li><li>팀 구성</li><li>AI를 쓰는 범위</li></ul></div></li>
+      <li><b>기록한다</b><span>어떤 조건에서 재미와 반응이 나오는지</span></li>
+      <li><b>몰아준다</b><span>반응이 좋은 게임에 인력과 자원을</span></li>
+    </ol>
+    <p class="source">로블록스 개발도 이 실험 가운데 하나입니다.</p>
+  </div>
 </div></section><section class="ssec" id="way" aria-labelledby="way-t"><p class="ssec__label">일하는 방식</p><h2 id="way-t">AI로 생산성이 증대되면서 전통적인 개발 방식을 고수하기에는 비효율적이 되었습니다.</h2>
-<div class="grid-3">
-  <div class="cell"><h3>빠르게 만들어 내놓는다</h3><p>팀원 각자가 AI로 빠르게 프로토타입을 만듭니다. 내부 평가로 재미를 검증하고, 시장에 빠르게 내어 고객 반응과 실험 데이터를 확보합니다.</p></div>
-  <div class="cell"><h3>실패는 다음 게임의 거름이 된다</h3><p>실패하면 그 데이터는 바로 다음에 더 나은 게임을 만드는 거름이 됩니다.</p><p class="hit">이 한 바퀴가 단 <strong>3주</strong>입니다.</p></div>
-  <div class="cell"><h3>반응이 이어지면 더 쏟는다</h3><p>좋은 반응이 계속 이어지면 그때에 맞춰 리소스를 더 투입합니다.</p><p class="hit hit--line"><strong>AI로 복제되지 않는 세계관과 서사, 팬과의 커뮤니티 형성에 매일 시간을 쏟습니다.</strong></p></div>
+<div class="loopwrap">
+  <div class="loop">
+    <svg class="loop__ring" viewBox="0 0 1200 900" aria-hidden="true" focusable="false"><defs><marker id="loop-head" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0 0L10 5L0 10z"/></marker></defs><path marker-end="url(#loop-head)" d="M182.8 324.5A450 335 0 0 1 388.7 154.2"/><path marker-end="url(#loop-head)" d="M811.3 154.2A450 335 0 0 1 1017.2 324.5"/><path marker-end="url(#loop-head)" d="M1017.2 575.5A450 335 0 0 1 811.3 745.8"/><path marker-end="url(#loop-head)" d="M388.7 745.8A450 335 0 0 1 182.8 575.5"/></svg>
+    <ol class="loop__steps">
+      <li class="loop__step loop__step--w"><b>프로토타입</b><span>팀원 각자 AI로 빠르게</span></li>
+      <li class="loop__step loop__step--n"><b>내부 평가</b><span>재미를 검증</span></li>
+      <li class="loop__step loop__step--e"><b>시장 출시</b><span>고객 반응과 실험 데이터 확보</span></li>
+      <li class="loop__step loop__step--s"><b><i class="sr-only">실패하면 </i>데이터를 거름으로</b><span>다음에 더 나은 게임을</span></li>
+    </ol>
+    <p class="loop__fail" aria-hidden="true">실패하면</p>
+    <p class="hit loop__center">이 한 바퀴가 단 <strong>3주</strong></p>
+  </div>
+  <div class="loopout">
+    <div class="loopout__go">
+      <p class="loopout__if">좋은 반응이 계속 이어지면</p>
+      <div class="loopout__arrow" aria-hidden="true"></div>
+    </div>
+    <div class="loopout__then">
+      <h3>리소스를 더 투입합니다.</h3>
+      <p class="hit hit--line"><strong>AI로 복제되지 않는 세계관과 서사, 팬과의 커뮤니티 형성에 매일 시간을 쏟습니다.</strong></p>
+    </div>
+  </div>
 </div></section><section class="ssec" id="matrix" aria-labelledby="matrix-t"><p class="ssec__label">실험 조건표</p><h2 id="matrix-t">13번의 실험, 매번 다른 조건.</h2>
 <div class="table-wrap" tabindex="0" role="region" aria-label="실험 조건표, 좁은 화면에서는 가로로 스크롤할 수 있습니다">
   <table class="matrix"><thead><tr><th scope="col">실험</th><th scope="col">게임</th><th scope="col">시기</th><th scope="col">겨냥한 사람</th><th scope="col">플랫폼</th><th scope="col">기간·인원</th><th scope="col">AI를 쓴 곳</th><th scope="col">지금</th></tr></thead><tbody><tr><td>01</td><th scope="row"><a href="games/basket.html">Basket Survivors</a></th><td>2026.05</td><td>현장 전시를 찾은 학생</td><td>웹</td><td>약 10일, 게임잼 팀</td><td>코드, 사운드 보조</td><td>2등</td></tr><tr><td>02</td><th scope="row"><a href="games/redhood.html">RedHood's BasDeck</a></th><td>2026.05</td><td>현장 전시를 찾은 학생</td><td>웹</td><td>약 10일, 게임잼 팀</td><td>코드 보조</td><td>3등</td></tr><tr><td>03</td><th scope="row"><a href="games/cook.html">요리왕천재</a></th><td>2026.05</td><td>옆자리 친구와 함께 하는 사람</td><td>웹</td><td>약 10일, 게임잼 팀</td><td class="dim">기록 없음</td><td>완료</td></tr><tr><td>04</td><th scope="row"><a href="games/standoff.html">STAND OFF</a></th><td>2026.07</td><td>게임잼 심사위원, 추리 게임 유저</td><td>PC</td><td>2박 3일, 4명</td><td>게임 속 AI의 대사와 행동</td><td>코드 공개</td></tr><tr><td>05</td><th scope="row"><a href="games/debug-master.html">디버그 마스터</a></th><td>2026.08~</td><td>Steam 코어 액션 유저</td><td>Roblox 검증, Steam 목표</td><td>개발 1, 아트 1</td><td>코드, 이미지, 자동 플레이 검사</td><td>창의상, 진행 중</td></tr><tr><td>06</td><th scope="row"><a href="games/parry.html">패링하세요!</a></th><td>2026.10~</td><td>Roblox 어린 이용자</td><td>Roblox PC·휴대폰</td><td>개발 2, 아트 1</td><td>화면 설계, 일부 3D 모델</td><td>베타 운영 중</td></tr><tr><td>07</td><th scope="row"><a href="games/ice-tag.html">얼음섬 술래잡기</a></th><td>2026.10</td><td>친구끼리 하는 온라인 술래잡기 유저</td><td>웹</td><td>3일 제작, 아트 1명</td><td>기획 보충, 코드, 그림 다듬기</td><td>프로토타입 v5</td></tr><tr><td>08</td><th scope="row"><a href="games/dollhouse.html">돌하우스</a></th><td>2026.10</td><td>공포 게임 유저</td><td>웹</td><td>아트 1명</td><td>코드</td><td>개발 중</td></tr><tr><td>09</td><th scope="row"><a href="games/survive-catjob.html">서바이브 캣잡</a></th><td>2026.10~</td><td>용과같이 팬, 고양이 애호가, 취준생 중 검증 전</td><td>언리얼 엔진 5.8</td><td>약 2주, 1명</td><td>컨셉 그림, 3D 모델, 개발 보조</td><td>개발 중</td></tr><tr><td>10</td><th scope="row"><a href="games/fimbulwinter.html">Fimbulwinter</a></th><td>2026.10~</td><td>생존·자원 관리 게임 유저</td><td>언리얼 엔진 5.8</td><td>10/12~12/15 계획, 1명</td><td>기록 없음</td><td>개발 중</td></tr><tr><td>11</td><th scope="row"><a href="games/line-auction.html">라인 경매</a></th><td>2026.10~</td><td class="dim">검증 전</td><td class="dim">미정</td><td>기획 1명</td><td class="dim">미정</td><td>기획 단계</td></tr><tr><td>12</td><th scope="row"><a href="games/nyangdoseom.html">냥도일섬</a></th><td>2026.11</td><td>게임잼 시연자, 액션 유저</td><td>PC, 웹</td><td>약 23시간, 4명</td><td>프로토타입, 개발 보조. 그림은 손으로</td><td>고도화 중</td></tr><tr><td>13</td><th scope="row"><a href="games/nests.html">둥지들 (가제)</a></th><td>2026.11~</td><td class="dim">검증 전</td><td class="dim">미정</td><td class="dim">미정</td><td class="dim">미정</td><td>기획 단계</td></tr></tbody></table>
 </div></section><section class="ssec" id="tech" aria-labelledby="tech-t"><p class="ssec__label">기술</p><h2 id="tech-t">적은 인원으로 여러 번 시험하려고 만든 세 가지.</h2>
 <div class="grid-3">
-  <div class="cell"><p class="label">게임 안의 AI</p><h3>AI가 말하고, 판정은 코드가 한다</h3><p>대사는 로컬 LLM이 만들고, 투표와 승패는 C# 코드가 확정합니다. 생성에 실패해도 게임 규칙은 바뀌지 않습니다.</p><a class="go" href="games/standoff.html#how">STAND OFF의 만든 방식</a></div>
-  <div class="cell"><p class="label">AI 에이전트 제작</p><h3>에이전트가 만들고, 봇이 끝까지 해 본다</h3><p>Claude Code가 Roblox Studio를 직접 조작해 만들고, 자동 조종 봇이 처음부터 끝까지 플레이합니다. 0.7 기준 검사 164개 통과.</p><a class="go" href="games/debug-master.html#how">디버그 마스터의 만든 방식</a></div>
-  <div class="cell"><p class="label">제품 안의 측정</p><h3>어디서 그만두는지 게임이 기록한다</h3><p>첫 접속부터 첫 뽑기까지 8단계와 던전 방별 진행을 기록합니다. 결제 상품 10종의 지급 흐름은 테스트 구매로 확인했습니다.</p><a class="go" href="games/parry.html#how">패링하세요!의 만든 방식</a></div>
+  <div class="cell"><p class="label">게임 안의 AI</p><h3>AI가 말하고, 판정은 코드가 한다</h3>
+    <ul class="lanes"><li><span class="node">로컬 LLM</span><span class="to" aria-hidden="true">→</span><span>대사 생성</span></li><li><span class="node node--solid">C# 코드</span><span class="to" aria-hidden="true">→</span><span>투표와 승패 확정</span></li></ul>
+    <p>생성에 실패해도 게임 규칙은 바뀌지 않습니다.</p><a class="go" href="games/standoff.html#how">STAND OFF의 만든 방식</a></div>
+  <div class="cell"><p class="label">AI 에이전트 제작</p><h3>사람이 지시하고, 에이전트가 만들고, 봇이 끝까지 해 본다</h3>
+    <ol class="pipe"><li><span class="node">사람</span><span>무엇을 만들지 지시</span></li><li><span class="node">AI 코딩 에이전트</span><span>Roblox Studio를 직접 조작해 제작</span></li><li><span class="node">자동 조종 봇</span><span>처음부터 끝까지 플레이</span></li><li><span class="node node--solid">검사 164개 통과</span><span>0.7 기준</span></li></ol>
+    <a class="go" href="games/debug-master.html#how">디버그 마스터의 만든 방식</a></div>
+  <div class="cell"><p class="label">제품 안의 측정</p><h3>어디서 그만두는지 게임이 기록한다</h3>
+    <div class="ticks" role="img" aria-label="첫 접속부터 첫 뽑기까지 8단계"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <p class="ticks__ends"><span>첫 접속</span><span>8단계</span><span>첫 뽑기</span></p>
+    <ul class="lanes"><li><span class="node">던전</span><span class="to" aria-hidden="true">→</span><span>방별 진행 기록</span></li><li><span class="node">결제 상품 10종</span><span class="to" aria-hidden="true">→</span><span>테스트 구매로 지급 확인</span></li></ul>
+    <a class="go" href="games/parry.html#how">패링하세요!의 만든 방식</a></div>
 </div></section><section class="ssec" id="results" aria-labelledby="results-t"><p class="ssec__label">성과</p><h2 id="results-t">해낸 것과 아직 못 한 것.</h2>
-<div class="ledger-wrap">
-  <div><p class="ledger__title">해낸 것</p><ul class="ledger"><li><span class="ledger__when">2026.09</span><div><strong>창의상</strong><span class="ledger__detail">창업중심대학 총장상. 모두의 창업 대학리그 본선 해커톤, 22팀 참가. 디버그 마스터.</span></div></li><li><span class="ledger__when">2026.09</span><div><strong>모두의 창업 2라운드 직행</strong><span class="ledger__detail">디버그 마스터로 2차 접수를 마쳐 2라운드 진출 대상이 됐습니다. 배정액은 미정입니다.</span></div></li><li><span class="ledger__when">2026.05</span><div><strong>개노잼 2등, 3등</strong><span class="ledger__detail">Basket Survivors, RedHood's BasDeck. 출품 6편, 현장 전시와 학생 투표.</span></div></li><li><span class="ledger__when">2026.07</span><div><strong>로컬 AI 게임 완성</strong><span class="ledger__detail">STAND OFF. 사람 1명과 AI 5명이 한 판을 끝까지 합니다.</span></div></li><li><span class="ledger__when">2026.10</span><div><strong>Roblox 공개 2편</strong><span class="ledger__detail">디버그 마스터와 패링하세요!를 같은 달에 공개했습니다.</span></div></li><li><span class="ledger__when">2026.10</span><div><strong>아트 담당 단독 제작 2편</strong><span class="ledger__detail">얼음섬 술래잡기와 돌하우스. 아트 담당이 AI와 함께 혼자 만들었습니다.</span></div></li><li><span class="ledger__when">2026.11</span><div><strong>23시간 완성, 시연 약 20명</strong><span class="ledger__detail">냥도일섬. 게임잼 현장에서 끝까지 돌아가는 빌드로 시연했습니다.</span></div></li></ul></div>
-  <div><p class="ledger__title">아직 못 한 것 (2026.11.05 기준)</p><ul class="ledger ledger--goal"><li><div><strong>방문 500회</strong><span class="ledger__detail">Roblox 공개 게임의 방문 수 합계입니다.</span><div class="meter" role="img" aria-label="500회 중 54회"><i><b style="width:10.8%"></b></i>54 / 500</div></div></li>
-<li><div><strong>첫 유료 결제</strong><span class="ledger__detail">패링하세요!에 결제 상품 10종을 구현했습니다. 등록과 실제 구매 테스트가 남았습니다.</span></div></li>
-<li><div><strong>인디 행사 부스 시연</strong><span class="ledger__detail">냥도일섬을 고도화해 BIC 같은 행사에서 처음 보는 사람에게 시연합니다.</span></div></li>
-<li><div><strong>Steam 찜 7,000건</strong><span class="ledger__detail">디버그 마스터의 2027년 출시 전 목표입니다. 스토어 페이지는 아직 없습니다.</span><div class="meter" role="img" aria-label="7,000건 중 0건"><i><b style="width:0"></b></i>0 / 7,000</div></div></li></ul></div>
+<div class="results">
+  <p class="ledger__title">해낸 것</p>
+  <ol class="tline">
+    <li><time datetime="2026-05">2026.05</time><ul><li><strong>개노잼 2등, 3등</strong><span>Basket Survivors, RedHood's BasDeck</span></li></ul></li>
+    <li><time datetime="2026-07">2026.07</time><ul><li><strong>로컬 AI 게임 완성</strong><span>STAND OFF</span></li></ul></li>
+    <li><time datetime="2026-09">2026.09</time><ul><li class="is-top"><strong>창의상</strong><span>창업중심대학 총장상. 본선 해커톤 22팀, 디버그 마스터</span></li><li><strong>모두의 창업 2라운드 직행</strong><span>디버그 마스터. 배정액은 미정</span></li></ul></li>
+    <li><time datetime="2026-10">2026.10</time><ul><li><strong>Roblox 공개 2편</strong><span>디버그 마스터, 패링하세요!</span></li><li><strong>아트 담당 단독 제작 2편</strong><span>얼음섬 술래잡기, 돌하우스</span></li></ul></li>
+    <li><time datetime="2026-11">2026.11</time><ul><li><strong>23시간 완성, 시연 약 20명</strong><span>냥도일섬</span></li></ul></li>
+  </ol>
+  <p class="ledger__title results__next">아직 못 한 것 (2026.11.05 기준)</p>
+  <ul class="ledger ledger--goal">
+    <li><strong>방문 500회</strong><span class="ledger__detail">Roblox 공개 게임 합계</span><div class="meter" role="img" aria-label="500회 중 54회"><i><b style="width:10.8%"></b></i>54 / 500</div></li>
+    <li><strong>Steam 찜 7,000건</strong><span class="ledger__detail">디버그 마스터 2027년 출시 전 목표. 스토어 페이지는 아직 없음</span><div class="meter" role="img" aria-label="7,000건 중 0건"><i><b style="width:0"></b></i>0 / 7,000</div></li>
+    <li><strong>첫 유료 결제</strong><span class="ledger__detail">패링하세요! 상품 10종 구현. 등록과 실제 구매 테스트가 남음</span></li>
+    <li><strong>인디 행사 부스 시연</strong><span class="ledger__detail">냥도일섬을 BIC 같은 행사에서</span></li>
+  </ul>
 </div></section><section class="ssec" id="rules" aria-labelledby="rules-t"><p class="ssec__label">배운 것</p><h2 id="rules-t">반복해서 들은 질문은 “그래서 뭐가 다른가?”였습니다.</h2>
-<div class="grid-3">
-  <div class="cell"><h3>말로 고르지 않는다</h3><p>말로는 다 재밌어 보였지만 쳐 보니 달랐습니다. 프로토타입 하나가 기획서보다 훨씬 잘 전달됩니다.</p></div>
-  <div class="cell"><h3>안 바꿀 핵심부터 정한다</h3><p>기능을 더할수록 기획에서 멀어집니다. 패링하세요!를 다섯 번 갈아엎고 나서야 배웠습니다.</p></div>
-  <div class="cell"><h3>각자의 AI는 각자 다른 게임을 만든다</h3><p>같은 게임을 두고도 누구의 AI는 전략을, 누구의 AI는 로그라이크를 중심에 둡니다. 방향과 미감, 마지막 손질은 사람이 맡습니다.</p></div>
+<div class="grid-3 rules">
+  <div class="cell"><h3>말로 고르지 않는다</h3><p>프로토타입 하나가 기획서보다 훨씬 잘 전달됩니다.</p></div>
+  <div class="cell"><h3>안 바꿀 핵심부터 정한다</h3><p>패링하세요!를 다섯 번 갈아엎고 나서야 배웠습니다.</p></div>
+  <div class="cell"><h3>각자의 AI는 각자 다른 게임을 만든다</h3><p>방향과 미감, 마지막 손질은 사람이 맡습니다.</p></div>
 </div></section><section class="ssec" id="next" aria-labelledby="next-t"><p class="ssec__label">다음 6개월</p><h2 id="next-t">가장 약한 곳부터 합니다. 사람을 데려와 반응을 재는 일입니다.</h2>
-<div class="grid-3">
-  <div class="cell"><h3>냥도일섬</h3><ol class="steps"><li>세계관을 다시 잡고, 전략 규칙을 화면에 드러냅니다.</li><li>장애물, 증강 시너지, 무한 모드를 프로토타입으로 확인합니다.</li><li>인디 행사 부스에서 시연합니다.</li></ol><p class="watch"><b>볼 숫자</b> 설명 없이 처음 해 본 사람 중 전략을 알아채는 비율</p></div>
-  <div class="cell"><h3>패링하세요!</h3><ol class="steps"><li>결제 상품을 등록하고 실제 구매를 시험합니다.</li><li>유입 경로를 나눠 시험합니다.</li><li>8단계 기록으로 이탈 구간을 고칩니다.</li></ol><p class="watch"><b>볼 숫자</b> 첫 결제, 단계별 이탈, 재방문</p></div>
-  <div class="cell"><h3>디버그 마스터</h3><ol class="steps"><li>집단마다 500명을 관찰합니다.</li><li>2주 안에 재플레이 15%, 다음 날 재방문 7%를 위험선으로 봅니다.</li><li>넘으면 Steam Next Fest(2027년 6월)와 7월 출시로 갑니다.</li></ol><p class="watch"><b>볼 숫자</b> 재플레이, 다음 날 재방문, Steam 찜</p></div>
+<div class="road">
+  <div class="road__row"><h3 class="road__game">냥도일섬</h3><ol class="road__steps"><li>세계관을 다시 잡고, 전략 규칙을 화면에 드러내기</li><li>장애물, 증강 시너지, 무한 모드를 프로토타입으로 확인</li><li>인디 행사 부스에서 시연</li></ol><p class="road__watch"><b>볼 숫자</b>설명 없이 처음 해 본 사람 중 전략을 알아채는 비율</p></div>
+  <div class="road__row"><h3 class="road__game">패링하세요!</h3><ol class="road__steps"><li>결제 상품 등록, 실제 구매 시험</li><li>유입 경로를 나눠 시험</li><li>8단계 기록으로 이탈 구간 수정</li></ol><p class="road__watch"><b>볼 숫자</b>첫 결제, 단계별 이탈, 재방문</p></div>
+  <div class="road__row"><h3 class="road__game">디버그 마스터</h3><ol class="road__steps"><li>집단마다 500명 관찰</li><li>위험선 확인: 2주 안에 재플레이 15%, 다음 날 재방문 7%</li><li>넘으면 Steam Next Fest(2027년 6월), 7월 출시</li></ol><p class="road__watch"><b>볼 숫자</b>재플레이, 다음 날 재방문, Steam 찜</p></div>
 </div></section><section class="ssec" id="team" aria-labelledby="team-t"><p class="ssec__label">팀</p><h2 id="team-t">대구대 게임개발 동아리에서 만난 5명.</h2>
 <p class="lead">2025년 8월 생긴 대구대 첫 게임개발 동아리 LEVEL 0에서 만났습니다. 2026년 GNGC 게임잼에 4명이 나간 뒤 1명이 합류해 5인 팀이 됐습니다.</p>
 <ul class="team">
-  <li><p class="team__name">우서혜</p><p class="team__job">대표 · 공동 팀장 · 아트</p><p class="team__games">STAND OFF, 패링하세요!, 얼음섬 술래잡기, 냥도일섬</p></li>
-  <li><p class="team__name">이현준</p><p class="team__job">공동 팀장 · 개발</p><p class="team__games">패링하세요!, RedHood's BasDeck, 냥도일섬, Fimbulwinter, 라인 경매</p><p class="team__note">개인 이력: 대경잼 예선 창의상(Sunset Park)</p></li>
+  <li class="team__lead"><p class="team__name">우서혜</p><p class="team__job">대표 · 공동 팀장 · 아트</p><p class="team__games">STAND OFF, 패링하세요!, 얼음섬 술래잡기, 냥도일섬</p></li>
+  <li class="team__lead"><p class="team__name">이현준</p><p class="team__job">공동 팀장 · 개발</p><p class="team__games">패링하세요!, RedHood's BasDeck, 냥도일섬, Fimbulwinter, 라인 경매</p><p class="team__note">개인 이력: 대경잼 예선 창의상(Sunset Park)</p></li>
   <li><p class="team__name">문종훈</p><p class="team__job">개발</p><p class="team__games">STAND OFF, 패링하세요!, 냥도일섬, 둥지들</p><p class="team__note">개인 이력: 대경잼 본선 진출작 Husk Out 개발(예선 단계)</p></li>
   <li><p class="team__name">강유민</p><p class="team__job">개발</p><p class="team__games">STAND OFF, 디버그 마스터, 요리왕천재, 서바이브 캣잡</p></li>
   <li><p class="team__name">이민희</p><p class="team__job">아트</p><p class="team__games">STAND OFF, 디버그 마스터, 돌하우스, 냥도일섬, 요리왕천재</p></li>
