@@ -2,110 +2,843 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>이게제프 스튜디오</title>
 <meta name="description" content="여러 게임을 만들며 고객층과 개발 조건을 실험하는 5인 게임 스튜디오">
 <meta property="og:title" content="이게제프 스튜디오">
 <meta property="og:description" content="여러 게임을 만들며 고객층과 개발 조건을 실험하는 5인 게임 스튜디오">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://gngc-5-team.github.io/igejeff-studio/">
-<meta property="og:image" content="https://gngc-5-team.github.io/igejeff-studio/assets/img/og.jpg">
+<meta property="og:image" content="https://gngc-5-team.github.io/igejeff-studio/assets/img/og-lobby.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#ecebe6">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111110'/%3E%3Crect x='11' y='7' width='15' height='11' rx='2' fill='%23a5a49e'/%3E%3Crect x='6' y='13' width='15' height='11' rx='2' fill='%23ecebe6'/%3E%3C/svg%3E">
-<link rel="preload" href="assets/fonts/site.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/fonts/pretendard/pretendardvariable-dynamic-subset.css">
-<link rel="stylesheet" href="styles.css">
-<script src="site.js" defer></script>
+<meta name="theme-color" content="#0b0b0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 스크롤하는 홈페이지가 아니라 게임 로비. 화면은 하나, 왼쪽 메뉴로 내용이 바뀐다. 검정 + 경험치 노랑 */
+:root {
+  --bg: #0b0b0d;
+  --panel: rgb(16 16 19 / .78);
+  --solid: #151518;
+  --line: rgb(255 255 255 / .12);
+  --ink: #f5f5f2;
+  --muted: #a3a3a8;
+  --dim: #6f6f76;
+  --exp: #ffd84a;
+  --on-exp: #111111;
+  --note: #ffd84a;
+  --font-display: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-mono: "IBM Plex Mono", "IBM Plex Sans KR", ui-monospace, monospace;
+  --c01: #2f9f72; --c02: #e0506a; --c03: #e5a50a; --c04: #b33a3b;
+  --c05: #8a9bb0; --c06: #9b6cff; --c07: #ff6a2b; --c08: #3aa7e0; --c09: #ec94bb; --c10: #2f7ff0; --c11: #b48b45;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.6; word-break: keep-all; overflow: hidden; }
+img { display: block; max-width: 100%; }
+p, h1, h2, h3, h4, ul, ol, dl, dd { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--exp); outline-offset: 3px; }
+.d { font-family: var(--font-display); font-weight: 400; letter-spacing: 0; line-height: 1.12; }
+.mono { font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; }
+.muted { color: var(--muted); }
+
+/* 공용 버튼 */
+.start { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 0; cursor: pointer; text-decoration: none;
+  background: var(--exp); color: var(--on-exp); font-family: var(--font-display); font-size: 20px; letter-spacing: .02em; padding: 14px 28px;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); transition: filter .12s, transform .12s; }
+.start:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.start--sm { font-size: 15px; padding: 10px 20px; }
+.line-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1px solid rgb(255 255 255 / .3); background: rgb(0 0 0 / .35); text-decoration: none; font-weight: 600; font-size: 14px; cursor: pointer; }
+.line-btn:hover { border-color: var(--exp); color: var(--exp); }
+
+/* 화면 틀 */
+.app { position: fixed; inset: 0; display: grid; grid-template-columns: 236px minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); }
+.bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.04); transition: opacity .5s, transform 6s ease-out; }
+.bg img.is-on { opacity: 1; transform: scale(1.0); }
+.bg::after { content: ""; position: absolute; inset: 0; background:
+  linear-gradient(90deg, rgb(11 11 13 / .97) 0, rgb(11 11 13 / .88) 236px, rgb(11 11 13 / .45) 55%, rgb(11 11 13 / .2) 100%),
+  linear-gradient(0deg, rgb(11 11 13 / .95) 0, rgb(11 11 13 / 0) 45%),
+  repeating-linear-gradient(0deg, rgb(255 255 255 / .018) 0 1px, transparent 1px 3px); }
+.bg[data-dim="1"]::after { background:
+  linear-gradient(90deg, rgb(11 11 13 / .98) 0, rgb(11 11 13 / .9) 236px, rgb(11 11 13 / .82) 100%),
+  repeating-linear-gradient(0deg, rgb(255 255 255 / .018) 0 1px, transparent 1px 3px); }
+
+.top { grid-column: 1 / -1; position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 28px; }
+.logo { display: flex; align-items: baseline; gap: 10px; text-decoration: none; }
+.logo .d { font-size: 26px; }
+.logo small { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .2em; color: var(--muted); }
+.top__right { display: flex; align-items: center; gap: 14px; }
+.top__info { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); letter-spacing: .08em; }
+
+/* 왼쪽 메뉴 */
+.rail { position: relative; z-index: 2; padding: 24px 0 24px 28px; display: grid; align-content: center; gap: 4px; }
+.rail button { display: grid; grid-template-columns: 18px minmax(0, 1fr); align-items: baseline; gap: 6px; padding: 9px 0; border: 0; background: none; cursor: pointer; text-align: left; color: var(--dim); }
+.rail button b { font-family: var(--font-display); font-weight: 400; font-size: 24px; line-height: 1.1; transition: color .12s, transform .12s; }
+.rail button small { grid-column: 2; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .16em; color: var(--dim); }
+.rail button::before { content: "▶"; font-size: 12px; color: var(--exp); opacity: 0; transform: translateY(-3px); }
+.rail button:hover { color: var(--ink); }
+.rail button[aria-current="true"] { color: var(--ink); }
+.rail button[aria-current="true"] b { transform: translateX(4px); }
+.rail button[aria-current="true"]::before { opacity: 1; animation: blink 1s steps(2, start) infinite; }
+.rail button[aria-current="true"] small { color: var(--exp); }
+@keyframes blink { to { visibility: hidden; } }
+
+/* 내용 */
+.stage { position: relative; z-index: 2; min-width: 0; min-height: 0; padding: 12px 40px 20px 32px; overflow: hidden; }
+.view { position: absolute; inset: 12px 40px 20px 32px; display: none; }
+.view.is-on { display: grid; animation: in .35s ease-out; }
+@keyframes in { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+.vhead { display: flex; align-items: baseline; gap: 14px; }
+.vhead h2 { font-size: 40px; }
+.vhead .mono { color: var(--exp); }
+
+/* 아래 막대 */
+.bottom { grid-column: 1 / -1; position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 10px 28px 14px; border-top: 1px solid var(--line); background: rgb(11 11 13 / .75); }
+.keys { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--muted); }
+.keys kbd { display: inline-block; min-width: 22px; padding: 1px 6px; margin-right: 6px; border: 1px solid rgb(255 255 255 / .3); border-bottom-width: 2px; border-radius: 4px; font-family: var(--font-mono); font-size: 11px; text-align: center; color: var(--ink); }
+.bottom__right { display: flex; gap: 10px; align-items: center; }
+
+/* 메인 */
+.v-main { align-content: end; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: end; }
+.v-main h1 { font-size: clamp(44px, 6vw, 88px); text-shadow: 0 4px 30px rgb(0 0 0 / .5); }
+.v-main h1 em { font-style: normal; color: var(--exp); }
+.v-main .sub { margin-top: 12px; font-size: 16px; color: #d7d7d2; }
+.stats { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px 30px; }
+.stats div { display: grid; }
+.stats b { font-family: var(--font-display); font-weight: 400; font-size: 30px; color: var(--exp); line-height: 1.1; }
+.stats span { font-size: 12px; color: var(--muted); }
+.now { padding: 18px; background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--exp); backdrop-filter: blur(8px); display: grid; gap: 10px; }
+.now__top { display: flex; justify-content: space-between; align-items: center; }
+.live { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .14em; color: var(--exp); }
+.live::before { content: ""; width: 7px; height: 7px; background: var(--exp); animation: blink 1s steps(2, start) infinite; }
+.now h3 { font-size: 30px; }
+.now .start { width: 100%; }
+
+/* 게임 선택 */
+.v-games { grid-template-rows: auto minmax(0, 1fr) auto; gap: 14px; }
+.ginfo { align-self: end; display: none; max-width: 560px; gap: 10px; }
+.ginfo.is-on { display: grid; animation: in .3s ease-out; }
+.tag { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: .06em; }
+.tag i { width: 9px; height: 9px; background: var(--c); }
+.tag span { color: var(--muted); font-weight: 500; }
+.ginfo h3 { font-size: clamp(44px, 5.6vw, 76px); text-shadow: 0 4px 30px rgb(0 0 0 / .5); }
+.ginfo p.one { font-size: 16px; color: #d7d7d2; }
+.ginfo .btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.quote { display: inline-block; justify-self: start; padding: 8px 12px; border-left: 3px solid var(--exp); background: rgb(0 0 0 / .55); font-size: 15px; }
+.quote b { font-family: var(--font-mono); font-size: 11px; color: var(--exp); margin-right: 8px; letter-spacing: .06em; }
+.gstrip { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+.gthumb { position: relative; padding: 0; border: 2px solid transparent; background: #000; cursor: pointer; aspect-ratio: 16 / 9; overflow: hidden; opacity: .6; transition: opacity .15s, border-color .15s, transform .15s; }
+.gthumb img { width: 100%; height: 100%; object-fit: cover; }
+.gthumb span { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 8px 5px; font-size: 12px; font-weight: 600; text-align: left; background: linear-gradient(transparent, rgb(0 0 0 / .85)); }
+.gthumb span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gthumb:hover { opacity: .9; }
+.gthumb[aria-selected="true"] { opacity: 1; border-color: var(--exp); transform: translateY(-4px); }
+
+/* 실험 기록 */
+.v-lab { grid-template-rows: auto auto minmax(0, 1fr); gap: 14px; }
+.labtop { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; }
+.count { font-family: var(--font-display); font-size: 28px; }
+.count span { color: var(--dim); font-size: 18px; }
+.arrows { display: flex; gap: 6px; }
+.arrow { width: 40px; height: 40px; border: 1px solid var(--line); background: rgb(0 0 0 / .4); cursor: pointer; }
+.arrow:hover { border-color: var(--exp); color: var(--exp); }
+.segs { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; }
+.seg { padding: 0 0 6px; border: 0; background: none; text-align: left; cursor: pointer; font-size: 11.5px; color: var(--dim); border-bottom: 3px solid var(--line); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.seg[aria-selected="true"] { color: var(--ink); border-color: var(--exp); }
+.slide { display: none; min-height: 0; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.slide.is-on { display: grid; animation: in .3s ease-out; }
+.slide__media { position: relative; min-width: 0; }
+.slide__media > img, .slide__media > .cover, .slide__media > .trio { width: 100%; height: auto; aspect-ratio: 16 / 10; max-height: calc(100vh - 330px); object-fit: cover; border: 1px solid var(--line); }
+.slide__media .quote { position: absolute; left: 12px; right: 12px; bottom: 12px; }
+.slide__body { min-width: 0; display: grid; gap: 12px; }
+.slide__body h3 { font-size: clamp(32px, 3.4vw, 46px); }
+.facts { display: grid; }
+.facts div { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+.facts dt { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; color: var(--exp); padding-top: 2px; letter-spacing: .06em; }
+.more summary { cursor: pointer; list-style: none; font-size: 13px; font-weight: 600; color: var(--muted); }
+.more summary::-webkit-details-marker { display: none; }
+.more summary::before { content: "+ "; color: var(--exp); font-family: var(--font-mono); }
+.more[open] summary::before { content: "− "; }
+.more dl { margin-top: 8px; display: grid; gap: 8px; font-size: 13.5px; color: var(--muted); max-height: 220px; overflow: auto; padding-right: 6px; }
+.more dt { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink); }
+.cover { display: grid; place-items: center; text-align: center; }
+.cover .d { font-size: 40px; }
+.cover--ice { background: repeating-linear-gradient(0deg, #bfe6fb 0 8px, #b2defa 8px 16px); color: #0d2c57; }
+.cover--doll { background: repeating-linear-gradient(90deg, #f0c3d6 0 16px, #eab5cc 16px 32px); color: #4b1a34; }
+.cover--nest { background: repeating-linear-gradient(45deg, #e9dcc0 0 12px, #e2d2b0 12px 24px); color: #4a3512; }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; background: #000; }
+.trio img { width: 100%; height: 100%; object-fit: cover; }
+.links { font-size: 13.5px; font-weight: 600; }
+.links a { color: var(--exp); margin-right: 14px; }
+
+/* 업적 */
+.v-ach { grid-template-rows: auto minmax(0, 1fr); gap: 18px; align-content: start; }
+.achgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; align-content: start; }
+.a { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 2px 12px; align-items: center; padding: 14px; background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(6px); }
+.a i { grid-row: span 2; width: 44px; height: 44px; display: grid; place-items: center; font-style: normal; font-size: 20px; color: var(--on-exp); background: var(--exp); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+.a b { font-size: 14.5px; line-height: 1.35; }
+.a span { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.a--big { grid-column: span 2; border-color: var(--exp); background: linear-gradient(90deg, rgb(255 216 74 / .18), var(--panel)); }
+.a--big b { font-family: var(--font-display); font-weight: 400; font-size: 22px; }
+.a--lock { background: rgb(0 0 0 / .4); border-style: dashed; }
+.a--lock i { background: transparent; color: var(--dim); border: 1px dashed var(--dim); clip-path: none; }
+.a--lock b { color: var(--muted); }
+.bar { grid-column: 2; height: 5px; background: var(--line); }
+.a .bar i { display: block; grid-row: auto; width: 0; height: 100%; font-size: 0; background: var(--exp); border: 0; clip-path: none; }
+
+/* 퀘스트 */
+.v-quest { grid-template-rows: auto minmax(0, 1fr); gap: 18px; align-content: start; }
+.quests { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-content: start; }
+.q { display: grid; grid-template-columns: 6px minmax(0, 1fr); gap: 0 16px; padding: 18px 20px 18px 0; background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(6px); }
+.q::before { content: ""; grid-row: span 3; background: var(--c, var(--exp)); }
+.q__kind { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: var(--muted); }
+.q h3 { font-size: 24px; margin-top: 2px; }
+.q p { margin-top: 6px; font-size: 13.5px; color: var(--muted); }
+.q p b { color: var(--exp); font-weight: 600; margin-right: 6px; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .06em; }
+.q--plan { background: rgb(0 0 0 / .4); border-style: dashed; }
+
+/* 파티 */
+.v-party { grid-template-rows: auto minmax(0, 1fr) auto; gap: 18px; }
+.party { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; align-self: center; }
+.member { display: grid; gap: 6px; padding: 0 0 16px; background: var(--panel); border: 1px solid var(--line); text-align: center; backdrop-filter: blur(6px); }
+.member .face { aspect-ratio: 4 / 3; display: grid; place-items: center; font-family: var(--font-display); font-size: 56px; color: var(--on-exp); background: var(--exp); margin-bottom: 8px; }
+.member:nth-child(even) .face { background: #f5f5f2; }
+.member b { font-family: var(--font-display); font-weight: 400; font-size: 22px; }
+.member span { font-size: 12.5px; color: var(--muted); }
+.party__foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+/* 자료 창 / 플레이 창 */
+.modal { position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; background: rgb(0 0 0 / .86);
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+  visibility: hidden; opacity: 0; pointer-events: none; transition: opacity .15s; }
+.modal.is-open { visibility: visible; opacity: 1; pointer-events: auto; }
+.modal__bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.modal__bar .d { font-size: 22px; }
+.modal__tools { display: flex; gap: 10px; align-items: center; font-size: 14px; }
+.modal__tools a { color: var(--exp); }
+.modal__tools button { background: transparent; border: 1px solid rgb(255 255 255 / .35); padding: 8px 14px; cursor: pointer; font-weight: 600; font-size: 14px; }
+.player__box { width: min(1200px, 100%, calc((100vh - 140px) * 16 / 9)); min-width: 0; display: grid; gap: 10px; }
+.player__frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; overflow: hidden; border: 1px solid var(--line); }
+.player__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.docs__box { width: min(1100px, 100%); max-height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 12px; background: var(--solid); border: 1px solid var(--line); padding: 20px; }
+.docs__body { overflow: auto; display: grid; gap: 26px; padding-right: 6px; }
+.docs__body h4 { font-size: 15px; margin-bottom: 8px; }
+.why { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 24px; align-items: center; }
+.big { font-family: var(--font-display); font-size: 72px; color: var(--exp); line-height: 1; }
+.why dl { display: grid; gap: 6px; font-size: 14px; }
+.why dt { display: inline; font-family: var(--font-mono); font-size: 11.5px; color: var(--exp); margin-right: 8px; }
+.why dd { display: inline; }
+.rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 18px; font-size: 14px; counter-reset: r; }
+.rules li { counter-increment: r; }
+.rules li::before { content: counter(r) ". "; color: var(--exp); font-family: var(--font-mono); }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); }
+.matrix { width: 100%; min-width: 980px; border-collapse: collapse; font-size: 13px; line-height: 1.5; font-variant-numeric: tabular-nums; }
+.matrix th, .matrix td { padding: 8px 10px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.matrix thead th { font-family: var(--font-mono); font-size: 11px; color: var(--muted); font-weight: 600; }
+.matrix tbody th { white-space: nowrap; }
+.matrix a { text-decoration: none; }
+.matrix .dim { color: var(--dim); }
+.methods { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; font-size: 13.5px; }
+.methods article { display: grid; gap: 6px; align-content: start; }
+.methods h4 { font-size: 14.5px; }
+.methods p { color: var(--muted); }
+.methods .links a { color: var(--exp); }
+.small-note { font-size: 12px; color: var(--dim); }
+
+
+/* 작업 방식: 3주 한 바퀴 */
+.v-flow { grid-template-rows: auto minmax(0, 1fr); gap: 18px; }
+.flow { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+.loop { position: relative; width: min(540px, 100%, calc(100vh - 290px)); aspect-ratio: 1; justify-self: center; }
+.loop__ring { position: absolute; inset: 14%; border-radius: 50%; border: 2px dashed rgb(255 255 255 / .22); }
+.loop__spin { position: absolute; inset: 14%; transform: rotate(var(--a, 0deg)); transition: transform .9s linear; }
+.loop__spin::before { content: ""; position: absolute; top: -8px; left: 50%; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: var(--exp); box-shadow: 0 0 18px var(--exp); }
+.loop__center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 4px; }
+.loop__center .mono { color: var(--muted); }
+.loop__center .mono b { color: var(--exp); }
+.loop__center .d { font-size: clamp(22px, 2.4vw, 32px); }
+.loop__center em { font-style: normal; color: var(--exp); font-size: 1.3em; }
+.loop__center .d small { display: block; margin-bottom: 2px; font-size: .6em; }
+.loop__nodes { position: absolute; inset: 0; }
+.node { position: absolute; width: 34%; max-width: 180px; padding: 10px 12px; text-align: center; background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(6px); transform: translate(-50%, -50%); transition: border-color .2s, background .2s, transform .2s; }
+.node b { display: block; font-size: 14.5px; line-height: 1.3; color: var(--muted); }
+.node span { display: block; font-size: 12px; color: var(--dim); }
+.node.is-on { border-color: var(--exp); background: rgb(255 216 74 / .14); transform: translate(-50%, -50%) scale(1.06); }
+.node.is-on b { color: var(--ink); }
+.node.is-on span { color: var(--muted); }
+.n1 { left: 50%; top: 14%; } .n2 { left: 86%; top: 50%; } .n3 { left: 50%; top: 86%; } .n4 { left: 14%; top: 50%; }
+.flow__side { min-width: 0; display: grid; gap: 18px; align-content: center; }
+.boost { padding: 14px 16px; border-left: 3px solid var(--exp); background: rgb(255 216 74 / .1); font-size: 16px; }
+.boost b { color: var(--exp); }
+.vow { padding: 14px 16px; border: 1px solid var(--exp); background: rgb(255 216 74 / .16); font-size: 18px; font-weight: 700; line-height: 1.5; color: var(--ink); }
+.fb { display: grid; gap: 8px; }
+.fb li { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 4px 12px; align-items: center; padding: 12px 14px; background: var(--panel); border: 1px solid var(--line); }
+.fb__who { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; color: var(--muted); }
+.fb__in { font-size: 14px; color: #d7d7d2; }
+.fb__in::after { content: "→"; display: inline-block; margin-left: 12px; color: var(--exp); }
+.fb__out { grid-column: 2 / -1; font-size: 14px; font-weight: 600; }
+.thumbcover { position: absolute; inset: 0; }
+.cover--fimbul { background: repeating-linear-gradient(0deg, #3a3d44 0 2px, #2c2f35 2px 26px); color: #e8edf2; }
+.cover--cat { background: repeating-linear-gradient(135deg, #f5f5f2 0 18px, #e9e9e4 18px 36px); color: #1a1a1a; }
+.cover--line { background: repeating-linear-gradient(90deg, #2a2a30 0 22px, #34343b 22px 24px), #2a2a30; color: var(--exp); }
+.segs { grid-template-columns: repeat(11, minmax(0, 1fr)); }
+.gstrip { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+/* 심사용 자료 창이 화면보다 길 때 안에서 스크롤 */
+.docs__box { max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); }
+.docs__body { min-height: 0; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+@media (max-width: 860px) {
+  .flow { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .loop { width: min(360px, 100% - 8px); }
+  .node { width: 38%; padding: 7px 6px; }
+  .n2 { left: 80%; } .n4 { left: 20%; }
+  .loop__center .mono { display: none; }
+  .node span { font-size: 11px; }
+  .node b { font-size: 13px; }
+  .segs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .gstrip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .fb li { grid-template-columns: minmax(0, 1fr); }
+  .fb__in::after { display: none; }
+  .fb__out { grid-column: 1; }
+  .fb__out::before { content: "→ "; color: var(--exp); }
+}
+@media (prefers-reduced-motion: reduce) { .loop__spin, .node { transition: none; } }
+
+/* 좁은 화면: 메뉴는 아래 탭으로, 내용은 안에서 스크롤 */
+@media (max-width: 860px) {
+  .app { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; }
+  .top { padding: 12px 16px; }
+  .top__info { display: none; }
+  .rail { grid-row: 3; display: flex; gap: 2px; padding: 6px max(8px, env(safe-area-inset-left, 0px)); overflow-x: auto; background: rgb(11 11 13 / .92); border-top: 1px solid var(--line); }
+  .rail button { flex: none; grid-template-columns: minmax(0, 1fr); padding: 8px 12px; text-align: center; }
+  .rail button::before { display: none; }
+  .rail button b { font-size: 17px; }
+  .rail button small { grid-column: 1; font-size: 9px; }
+  .rail button[aria-current="true"] b { transform: none; color: var(--exp); }
+  .bottom { display: none; }
+  .stage { padding: 0; overflow: auto; }
+  .view { position: static; padding: 8px 16px 24px; min-height: 100%; }
+  .bg::after { background: linear-gradient(0deg, rgb(11 11 13 / .97) 0, rgb(11 11 13 / .6) 60%, rgb(11 11 13 / .45) 100%); }
+  .v-main { grid-template-columns: minmax(0, 1fr); }
+  .gstrip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .segs { grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 8px; }
+  .slide { grid-template-columns: minmax(0, 1fr); }
+  .slide__media .quote { position: static; margin-top: 8px; display: block; }
+  .slide__media > img, .slide__media > .cover, .slide__media > .trio { max-height: none; }
+  .achgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .quests, .methods, .rules { grid-template-columns: minmax(0, 1fr); }
+  .party { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .member .face { font-size: 40px; }
+  .why { grid-template-columns: minmax(0, 1fr); }
+  .vhead h2 { font-size: 32px; }
+}
+@media (max-width: 480px) {
+  .achgrid { grid-template-columns: minmax(0, 1fr); }
+  .a--big { grid-column: auto; }
+  .party { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .view.is-on, .ginfo.is-on, .slide.is-on { animation: none; }
+  .bg img { transition: none; }
+  .rail button[aria-current="true"]::before, .live::before { animation: none; }
+}
+</style>
 </head>
 <body>
-<header class="wrap bar">
-  <nav class="bar__nav" aria-label="사이트 메뉴"><a href="games.html">게임</a><a href="studio.html">스튜디오</a></nav>
-</header>
+<div class="app">
+  <div class="bg" id="bg" aria-hidden="true">
+    <img data-k="main" class="is-on" src="assets/img/nyang-key.webp" alt="">
+    <img data-k="nyang" src="assets/img/nyang-key.webp" alt="">
+    <img data-k="parry" src="assets/img/parry-key.webp" alt="">
+    <img data-k="debug" src="assets/img/dm-resort.webp" alt="">
+    <img data-k="basket" src="assets/img/basket-title.webp" alt="">
+    <img data-k="redhood" src="assets/img/redhood-title.webp" alt="">
+    <img data-k="cook" src="assets/img/cook-title.webp" alt="">
+    <img data-k="ice" src="assets/img/ice-title.webp" alt="">
+    <img data-k="dim" src="assets/img/dm-port.webp" alt="">
+  </div>
 
-<main>
-<section class="wrap hero" aria-labelledby="hero-title">
-  <h1 id="hero-title" class="mark"><span class="sr-only">이게제프 스튜디오</span><span class="mark__l" aria-hidden="true"><span>이</span></span><span class="mark__l" aria-hidden="true"><span>게</span></span><span class="mark__l" aria-hidden="true"><span>제</span></span><span class="mark__l" aria-hidden="true"><span>프</span></span></h1>
-  <div class="stage">
-    <div class="say">
-      <p class="say__q">요즘 시대의 게임 개발은 어떻게 되어야 할까요?</p>
-      <p class="say__a"><span>그 답을 저희</span> <span>이게제프가 제시하겠습니다.</span></p>
-      <div class="actions"><a class="pill pill--solid" href="games.html">게임 보기</a><a class="pill" href="studio.html">스튜디오 소개</a></div>
+  <header class="top">
+    <a class="logo" href="#main" data-go="main"><span class="d">이게제프</span><small>GAME STUDIO</small></a>
+    <div class="top__right">
+      <span class="top__info">DAEGU UNIV. · 5 PLAYERS</span>
+      <a class="start start--sm" href="https://gngc-5-team.github.io/igejeff-studio/play/nyangdoseom/" target="_blank" rel="noopener">GAME START ↗</a>
     </div>
-    <div class="deck" data-deck><div class="deck__tilt" data-tilt><a class="card" data-card data-pos="0" aria-hidden="false" href="games/nyangdoseom.html" data-name="냥도일섬" data-line="클릭 한 번으로 바다를 가르는 고양이 검객 액션 로그라이트"><img src="assets/img/nyang-title.webp" width="1600" height="900" alt="냥도일섬 타이틀 화면. 칼자국이 가로지른 로고와 시작 메뉴, 바닷속의 물고기들과 칼을 든 검은 고양이"></a><a class="card" data-card data-pos="1" aria-hidden="true" tabindex="-1" href="games/ice-tag.html" data-name="얼음섬 술래잡기" data-line="상어 1명과 펭귄 4명이 겨루는 온라인 술래잡기"><img src="assets/img/ice-title.webp" width="1400" height="788" alt="얼음섬 술래잡기 타이틀 화면. 얼음 섬 위의 펭귄과 상어, 왼쪽의 시작 메뉴"></a><a class="card" data-card data-pos="2" aria-hidden="true" tabindex="-1" href="games/standoff.html" data-name="STAND OFF" data-line="사람 1명과 로컬 AI 5명의 6인 마피아 게임"><img src="assets/img/standoff-title.webp" width="1400" height="879" alt="STAND OFF 타이틀 화면. 붉은 제목과 다섯 인물"></a><a class="card" data-card data-pos="rest" aria-hidden="true" tabindex="-1" href="games/redhood.html" data-name="RedHood&#x27;s BasDeck" data-line="빨간 망토의 속성 조합 카드 게임"><img src="assets/img/redhood-title.webp" width="1400" height="760" alt="RedHood&#x27;s BasDeck 타이틀 화면. 빨간 망토를 쓴 소녀의 얼굴"></a><a class="card" data-card data-pos="rest" aria-hidden="true" tabindex="-1" href="games/basket.html" data-name="Basket Survivors" data-line="원소 카드로 버티는 서바이벌 액션"><img src="assets/img/basket-title.webp" width="1400" height="788" alt="Basket Survivors 타이틀 화면. 안개 낀 숲의 픽셀 아트"></a><a class="card" data-card data-pos="rest" aria-hidden="true" tabindex="-1" href="games/cook.html" data-name="요리왕천재" data-line="한 키보드로 두 명이 겨루는 60초 요리 대결"><img src="assets/img/cook-title.webp" width="630" height="354" alt="요리왕천재 표지. 요리사 복장의 두 인물"></a><a class="card" data-card data-pos="rest" aria-hidden="true" tabindex="-1" href="games/parry.html" data-name="패링하세요!" data-line="공격을 받아쳐 능력을 빼앗는 Roblox 액션"><img src="assets/img/parry-key.webp" width="768" height="429" alt="패링하세요! 키아트. 불을 뿜는 떡볶이 악어의 공격을 받아치는 로블록스 캐릭터"></a><a class="card" data-card data-pos="rest" aria-hidden="true" tabindex="-1" href="games/debug-master.html" data-name="디버그 마스터" data-line="칼로 받아치고, 빼앗은 능력을 드론에 조립하는 액션"><img src="assets/img/dm-title.webp" width="1600" height="900" alt="디버그 마스터 타이틀 화면. 밤의 항구와 드론 위로 파란 제목"></a></div></div>
-    <div class="now">
-      <p class="now__count"><span><span data-now-count>01</span> / 08</span><span class="now__clock" aria-hidden="true"><span data-now-clock></span></span></p>
-      <div class="now__text" data-now-text>
-        <p class="now__name" data-now-name>냥도일섬</p>
-        <p class="now__line" data-now-line>클릭 한 번으로 바다를 가르는 고양이 검객 액션 로그라이트</p>
+  </header>
+
+  <nav class="rail" aria-label="메뉴">
+    <button type="button" data-go="main" aria-current="true"><b>메인</b><small>MAIN</small></button>
+    <button type="button" data-go="games" aria-current="false"><b>게임 선택</b><small>GAMES</small></button>
+    <button type="button" data-go="flow" aria-current="false"><b>작업 방식</b><small>WORKFLOW</small></button>
+    <button type="button" data-go="lab" aria-current="false"><b>실험 기록</b><small>LAB LOG</small></button>
+    <button type="button" data-go="ach" aria-current="false"><b>업적</b><small>ACHIEVEMENTS</small></button>
+    <button type="button" data-go="quest" aria-current="false"><b>퀘스트</b><small>NEXT 6 MONTHS</small></button>
+    <button type="button" data-go="party" aria-current="false"><b>파티</b><small>TEAM</small></button>
+  </nav>
+
+  <main class="stage">
+
+    <!-- 메인 -->
+    <section class="view v-main is-on" id="v-main" aria-labelledby="t-main">
+      <div>
+        <h1 id="t-main" class="d">진짜 재미는<br><em>직접 해 봐야</em> 압니다.</h1>
+        <p class="sub">대구대 학생 5명의 게임 스튜디오. 게임 하나가 실험 하나.</p>
+        <div class="stats">
+          <div><b>13</b><span>번의 실험</span></div>
+          <div><b>7</b><span>편 플레이 가능</span></div>
+          <div><b>창의상</b><span>대학리그 본선 해커톤</span></div>
+        </div>
       </div>
-      <a class="go now__go" data-now-go href="games/nyangdoseom.html">자세히 보기</a>
-      <div class="now__keys">
-        <button class="key" type="button" data-now-prev aria-label="이전 게임"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M8.5 0L10 1.5 5.5 6l4.5 4.5L8.5 12l-6-6z"/></svg></button>
-        <button class="key" type="button" data-now-next aria-label="다음 게임"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 0L2 1.5 6.5 6 2 10.5 3.5 12l6-6z"/></svg></button>
-        <button class="key" type="button" data-now-pause aria-label="타이틀 넘기기 멈추기"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 0h3.5v12H1zM7.5 0H11v12H7.5z"/></svg></button>
+      <aside class="now" aria-label="지금 플레이">
+        <div class="now__top"><span class="live">NOW PLAYABLE</span><span class="mono muted">EXP.12</span></div>
+        <h3 class="d">냥도일섬</h3>
+        <p class="muted">바다를 가르는 고양이 검객. 브라우저에서 바로.</p>
+        <a class="start" href="https://gngc-5-team.github.io/igejeff-studio/play/nyangdoseom/" target="_blank" rel="noopener">GAME START ↗</a>
+      </aside>
+    </section>
+
+    <!-- 게임 선택 -->
+    <section class="view v-games" id="v-games" aria-labelledby="t-games">
+      <div class="vhead"><h2 id="t-games" class="d">게임 선택</h2><span class="mono">7 PLAYABLE · 13 EXPERIMENTS</span></div>
+      <div style="display:grid; align-content:end; min-height:0">
+        <div class="ginfo is-on" data-g="nyang">
+          <span class="tag" style="--c: var(--c10)"><i></i>EXP.12 <span>웹 · Unity 6</span></span>
+          <h3 class="d">냥도일섬</h3>
+          <p class="one">찍은 곳까지 달려가는 길이 곧 공격.</p>
+          <p class="quote"><b>현장</b>BIC 부스 게임들보다 재밌다.</p>
+          <div class="btns"><a class="start" href="https://gngc-5-team.github.io/igejeff-studio/play/nyangdoseom/" target="_blank" rel="noopener">GAME START ↗</a><button type="button" class="line-btn" data-go="lab" data-slide="exp-12">실험 기록</button></div>
+        </div>
+        <div class="ginfo" data-g="parry">
+          <span class="tag" style="--c: var(--c07)"><i></i>EXP.06 <span>Roblox · 베타</span></span>
+          <h3 class="d">패링하세요!</h3>
+          <p class="one">K-푸드 몬스터를 받아쳐 능력을 빼앗는 액션.</p>
+          <p class="quote"><b>테스트</b>적 패턴이 다 똑같다.</p>
+          <div class="btns"><a class="start" href="https://www.roblox.com/games/107469708948792" rel="noopener" target="_blank">ROBLOX ↗</a><button type="button" class="line-btn" data-go="lab" data-slide="exp-06">실험 기록</button></div>
+        </div>
+        <div class="ginfo" data-g="debug">
+          <span class="tag" style="--c: var(--c06)"><i></i>EXP.05 <span>Roblox → Steam</span></span>
+          <h3 class="d">디버그 마스터</h3>
+          <p class="one">받아친 능력을 드론에 조립하는 액션. 창의상 수상작.</p>
+          <p class="quote"><b>점검</b>받아치기가 단조롭다.</p>
+          <div class="btns"><a class="start" href="https://www.roblox.com/games/80877726107554" rel="noopener" target="_blank">ROBLOX ↗</a><button type="button" class="line-btn" data-go="lab" data-slide="exp-05">실험 기록</button></div>
+        </div>
+        <div class="ginfo" data-g="ice">
+          <span class="tag" style="--c: var(--c08)"><i></i>EXP.07 <span>웹 · 온라인 멀티</span></span>
+          <h3 class="d">얼음섬 술래잡기</h3>
+          <p class="one">상어 1명과 펭귄 4명의 온라인 술래잡기.</p>
+          <p class="quote"><b>팀 질의</b>갈매기가 실력 경쟁을 운으로 바꾼다.</p>
+          <div class="btns"><a class="start" href="https://ice-island.onrender.com/" rel="noopener" target="_blank">WEB PLAY ↗</a><button type="button" class="line-btn" data-go="lab" data-slide="exp-07">실험 기록</button></div>
+        </div>
+        <div class="ginfo" data-g="basket">
+          <span class="tag" style="--c: var(--c01)"><i></i>EXP.01 <span>웹 · 개노잼 2등</span></span>
+          <h3 class="d">Basket Survivors</h3>
+          <p class="one">원소 카드로 버티는 서바이벌 액션.</p>
+          <div class="btns"><a class="start" href="https://bami0701.itch.io/basket-survivors3team" rel="noopener" target="_blank">ITCH.IO ↗</a></div>
+        </div>
+        <div class="ginfo" data-g="redhood">
+          <span class="tag" style="--c: var(--c02)"><i></i>EXP.02 <span>웹 · 개노잼 3등</span></span>
+          <h3 class="d">RedHood's BasDeck</h3>
+          <p class="one">빨간 망토의 속성 조합 카드 게임.</p>
+          <div class="btns"><a class="start" href="https://dev-neulbo.itch.io/redhoods-basdeck" rel="noopener" target="_blank">ITCH.IO ↗</a></div>
+        </div>
+        <div class="ginfo" data-g="cook">
+          <span class="tag" style="--c: var(--c03)"><i></i>EXP.03 <span>웹 · 2인</span></span>
+          <h3 class="d">요리왕천재</h3>
+          <p class="one">한 키보드로 둘이 겨루는 60초 요리 대결.</p>
+          <div class="btns"><a class="start" href="https://yuminbeep.itch.io/1" rel="noopener" target="_blank">ITCH.IO ↗</a></div>
+        </div>
       </div>
+      <div class="gstrip" role="tablist" aria-label="게임 고르기">
+        <button type="button" class="gthumb" role="tab" aria-selected="true" data-pick="nyang"><img src="assets/img/nyang-title.webp" alt=""><span>12 냥도일섬</span></button>
+        <button type="button" class="gthumb" role="tab" aria-selected="false" data-pick="ice"><img src="assets/img/ice-title.webp" alt=""><span>07 얼음섬 술래잡기</span></button>
+        <button type="button" class="gthumb" role="tab" aria-selected="false" data-pick="basket"><img src="assets/img/basket-title.webp" alt=""><span>01 Basket Survivors</span></button>
+        <button type="button" class="gthumb" role="tab" aria-selected="false" data-pick="redhood"><img src="assets/img/redhood-title.webp" alt=""><span>02 RedHood's BasDeck</span></button>
+        <button type="button" class="gthumb" role="tab" aria-selected="false" data-pick="cook"><img src="assets/img/cook-title.webp" alt=""><span>03 요리왕천재</span></button>
+        <button type="button" class="gthumb" role="tab" aria-selected="false" data-pick="debug"><img src="assets/img/dm-title.webp" alt=""><span>05 디버그 마스터</span></button>
+        <button type="button" class="gthumb" role="tab" aria-selected="false" data-pick="parry"><img src="assets/img/parry-key.webp" alt=""><span>06 패링하세요!</span></button>
+      </div>
+    </section>
+
+    <!-- 작업 방식 -->
+    <section class="view v-flow" id="v-flow" aria-labelledby="t-flow">
+      <div class="vhead"><h2 id="t-flow" class="d">작업 방식</h2><span class="mono">한 바퀴 = 3주</span></div>
+      <div class="flow">
+        <div class="loop" id="loop">
+          <div class="loop__ring" aria-hidden="true"></div>
+          <div class="loop__spin" id="loop-spin" aria-hidden="true"></div>
+          <div class="loop__center"><span class="mono">DAY <b id="loop-day">01</b> / 21</span><p class="d"><small>이 한 바퀴가</small>단 <em>3주</em></p></div>
+          <ol class="loop__nodes">
+            <li class="node n1 is-on" data-from="1" data-to="5"><b>01 프로토타입</b><span>팀원 각자 AI로 빠르게</span></li>
+            <li class="node n2" data-from="6" data-to="10"><b>02 내부 평가</b><span>재미를 검증</span></li>
+            <li class="node n3" data-from="11" data-to="16"><b>03 시장 출시</b><span>고객 반응과 실험 데이터 확보</span></li>
+            <li class="node n4" data-from="17" data-to="21"><b>04 실패하면 데이터를 거름으로</b><span>다음에 더 나은 게임을</span></li>
+          </ol>
+        </div>
+        <div class="flow__side">
+          <p class="boost"><b>좋은 반응이 계속 이어지면</b> 리소스를 더 투입합니다.</p>
+          <ul class="fb" aria-label="들은 말을 다음 게임에 넣은 예">
+            <li><span class="fb__who">STAND OFF · 심사</span><span class="fb__in">“튜토리얼이 필요했다”</span><span class="fb__out">패링하세요!에 6단계 튜토리얼</span></li>
+            <li><span class="fb__who">냥도일섬 · 멘토</span><span class="fb__in">“짧게 해 보는 자리다”</span><span class="fb__out">적 체력 ×1.5 → ×1.1, 후반 적 26 → 17마리</span></li>
+            <li><span class="fb__who">Roblox 2편 · 공개 수치</span><span class="fb__in">3주 방문 합계 54회</span><span class="fb__out">다음은 유입 경로를 나눠 시험</span></li>
+          </ul>
+          <p class="vow">AI로 복제되지 않는 세계관과 서사, 팬과의 커뮤니티 형성에 매일 시간을 쏟습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 실험 기록 -->
+    <section class="view v-lab" id="v-lab" aria-labelledby="t-lab">
+      <div class="labtop">
+        <div class="vhead"><h2 id="t-lab" class="d">실험 기록</h2><span class="mono">LAB LOG · 13 EXPERIMENTS</span></div>
+        <div style="display:flex; align-items:center; gap:14px">
+          <p class="count" aria-live="polite"><b id="lab-n">01</b> <span>/ 11</span></p>
+          <div class="arrows"><button type="button" class="arrow" data-step="-1" aria-label="이전 실험">◀</button><button type="button" class="arrow" data-step="1" aria-label="다음 실험">▶</button></div>
+        </div>
+      </div>
+      <div class="segs" role="tablist" aria-label="실험 고르기">
+        <button type="button" class="seg" role="tab" data-s="exp-01" aria-selected="true">01~03 개노잼</button>
+        <button type="button" class="seg" role="tab" data-s="exp-04" aria-selected="false">04 STAND OFF</button>
+        <button type="button" class="seg" role="tab" data-s="exp-05" aria-selected="false">05 디버그 마스터</button>
+        <button type="button" class="seg" role="tab" data-s="exp-06" aria-selected="false">06 패링하세요!</button>
+        <button type="button" class="seg" role="tab" data-s="exp-07" aria-selected="false">07 얼음섬 술래잡기</button>
+        <button type="button" class="seg" role="tab" data-s="exp-08" aria-selected="false">08 돌하우스</button>
+        <button type="button" class="seg" role="tab" data-s="exp-09" aria-selected="false">09 서바이브 캣잡</button>
+        <button type="button" class="seg" role="tab" data-s="exp-10" aria-selected="false">10 Fimbulwinter</button>
+        <button type="button" class="seg" role="tab" data-s="exp-11" aria-selected="false">11 라인 경매</button>
+        <button type="button" class="seg" role="tab" data-s="exp-12" aria-selected="false">12 냥도일섬</button>
+        <button type="button" class="seg" role="tab" data-s="exp-13" aria-selected="false">13 둥지들</button>
+      </div>
+      <div style="min-height:0">
+        <article class="slide" id="exp-13" role="tabpanel">
+          <div class="slide__media"><div class="cover cover--nest" aria-hidden="true"><span class="d">둥지들<br>(가제)</span></div><p class="quote"><b>기획 발표 질의</b>비슷한 게임이 많은데, 독자적인 점은 무엇인가?</p></div>
+          <div class="slide__body">
+            <span class="tag" style="--c: var(--c11)"><i></i>EXP.13 <span>2026.11~ · 기획 단계</span></span>
+            <h3 class="d">둥지들 (가제)</h3>
+            <dl class="facts"><div><dt>계획</dt><dd>서식지로 동료를 불러 모아 밤을 버틴다. 7일 버티기 한 판으로 재미부터 확인.</dd></div></dl>
+            
+            
+          </div>
+        </article>
+        <article class="slide" id="exp-12" role="tabpanel">
+          <div class="slide__media"><img src="assets/img/nyang-title.webp" width="1600" height="900" alt="냥도일섬 타이틀 화면. 바닷속 고양이 검객과 시작 메뉴" loading="lazy"><p class="quote"><b>심사위원</b>재미는 있다. 그런데 그래서 독창성이 뭔가?</p></div>
+          <div class="slide__body">
+            <span class="tag" style="--c: var(--c10)"><i></i>EXP.12 <span>2026.10.30~11.01 · 게임잼 · 4명</span></span>
+            <h3 class="d">냥도일섬</h3>
+            <dl class="facts"><div><dt>결과</dt><dd>약 23시간 제작, 현장 시연 약 20명. 수상은 없음.</dd></div><div><dt>배운 것</dt><dd>전략 규칙을 매번 말로 설명해야 했다. 차별점이 아직 화면에 안 보인다.</dd></div></dl>
+            <details class="more"><summary>전체 기록</summary><dl><dt>바꾼 조건</dt><dd>주제 후보였던 기생과 식욕은 말로는 재밌어 보였지만 프로토타입으로 쳐 보니 달랐습니다. 멘토 조언에 따라 적 체력 증가를 ×1.5에서 ×1.1로, 후반 적 수를 26마리에서 17마리로 낮췄습니다.</dd><dt>결과</dt><dd>현장 시연 약 20명, 수상은 없었습니다. “BIC 부스에서 하는 게임들보다 재밌다”는 말을 들었고, 장애물, 증강 시너지, 무한 모드, 모바일 출시 아이디어를 받았습니다.</dd><dt>다음</dt><dd>컨셉과 세계관을 다시 잡고, 받은 아이디어를 프로토타입으로 확인한 뒤 BIC 같은 인디 행사에서 부스 시연을 합니다.</dd></dl></details>
+            
+          </div>
+        </article>
+        <article class="slide" id="exp-11" role="tabpanel">
+          <div class="slide__media"><div class="cover cover--line" aria-hidden="true"><span class="d">라인 경매</span></div></div>
+          <div class="slide__body">
+            <span class="tag" style="--c: var(--c04)"><i></i>EXP.11 <span>2026.10~ · 기획 단계 · 기획 1명</span></span>
+            <h3 class="d">라인 경매</h3>
+            <dl class="facts"><div><dt>계획</dt><dd>비공개 입찰로 기계를 사서 공장 라인을 짓고, 공개된 주문서를 먼저 채우면 승리.</dd></div></dl>
+            <details class="more"><summary>전체 기록</summary><dl><dt>소개</dt><dd>기계, 컨베이어, 부지를 모두가 동시에 비공개로 입찰해 사고, 산 것을 격자판에 이어 라인을 만듭니다. 만든 제품을 주문서에 납품할지 팔아서 다음 입찰 자금으로 쓸지 매 라운드 고릅니다.</dd><dt>기준</dt><dd>2026년 10월 29일 기획 발표 자료 기준. 라운드 수와 금액은 아직 예시입니다. 기획 이현준.</dd></dl></details>
+            
+          </div>
+        </article>
+        <article class="slide" id="exp-10" role="tabpanel">
+          <div class="slide__media"><img src="assets/img/fimbul-play.webp" width="1280" height="720" alt="Fimbulwinter 개발 중 화면. 회색 도형으로 만든 벙커 위로 위기 알림 창" loading="lazy"></div>
+          <div class="slide__body">
+            <span class="tag" style="--c: var(--c05)"><i></i>EXP.10 <span>2026.10~ · 언리얼 엔진 5.8 · 1명</span></span>
+            <h3 class="d">Fimbulwinter</h3>
+            <dl class="facts"><div><dt>결과</dt><dd>1단계(10/12~11/1)에서 생존 루프, 파견, 위기, 엔딩까지 한 판이 돈다.</dd></div><div><dt>다음</dt><dd>12월 15일까지 사람 관리·성장 요소와 밸런스를 넣어 발표 빌드.</dd></div></dl>
+            <details class="more"><summary>전체 기록</summary><dl><dt>소개</dt><dd>화산 겨울, 지하 벙커에서 수송대가 올 때까지 15일을 버팁니다. 사람을 방에 배치해 전력, 산소, 식량을 만들고, 모자란 물자는 밖으로 파견해 구합니다. 위기는 네 번, 무전이 미리 알려 줍니다.</dd><dt>조건</dt><dd>이현준 1명이 게임가상현실 수업에서 블루프린트로 만듭니다. 그래픽은 뒤로 미루고 회색 도형으로 규칙부터 완성합니다. 참고작 Frostpunk, This War of Mine.</dd></dl></details>
+            
+          </div>
+        </article>
+        <article class="slide" id="exp-09" role="tabpanel">
+          <div class="slide__media"><img src="assets/img/catjob-title.webp" width="1400" height="803" alt="서바이브 캣잡 타이틀 화면. 노을 진 빌딩 숲을 올려다보는 정장 차림 고양이" loading="lazy"><p class="quote"><b>팀 회의</b>생각해 둔 세계관이 있는가?</p></div>
+          <div class="slide__body">
+            <span class="tag" style="--c: var(--c09)"><i></i>EXP.09 <span>2026.10~ · 언리얼 엔진 5.8 · 1명</span></span>
+            <h3 class="d">서바이브 캣잡</h3>
+            <dl class="facts"><div><dt>결과</dt><dd>약 2주 만에 지원·면접·싸움·일기까지 하루가 끝까지 도는 수직 슬라이스. 고양이 12명.</dd></div><div><dt>배운 것</dt><dd>고양이를 사람으로 바꿔도 그대로였다. 고양이라서만 되는 것을 넣는다.</dd></div></dl>
+            <details class="more"><summary>전체 기록</summary><dl><dt>소개</dt><dd>대인기피 흰 고양이 백수냥이 공고에 지원해 3인 면접을 보고, 거리에서 시비가 붙으면 싸우고, 하루가 끝나면 일기를 씁니다.</dd><dt>회고</dt><dd>돌아가는 게임은 만들었지만 해 보니 심심했습니다. 메인 스토리로 뼈대를 세우고, 영역다툼과 꼬리·귀 언어처럼 고양이 습성을 시스템으로 바꿉니다.</dd><dt>조건</dt><dd>강유민 1명이 수업 과제로 만들었습니다. 컨셉 그림 → AI 3D → 리깅 과정으로 NPC 한 명에 약 2분. 직접 합성한 효과음과 음악 47개.</dd></dl></details>
+            
+          </div>
+        </article>
+        <article class="slide" id="exp-08" role="tabpanel">
+          <div class="slide__media"><img src="assets/img/doll-title.webp" width="942" height="530" alt="돌하우스 타이틀 화면. 단추와 붉은 실로 꿰맨 로고와 무대 커튼" loading="lazy"><p class="quote"><b>팀 내부 질의응답</b>데드 바이 데이라이트, 제5인격과 무엇이 다른가?</p></div>
+          <div class="slide__body">
+            <span class="tag" style="--c: var(--c09)"><i></i>EXP.08 <span>2026.10~ · 웹 · 아트 1명</span></span>
+            <h3 class="d">돌하우스</h3>
+            <dl class="facts"><div><dt>결과</dt><dd>v0.9.0. 1층 재봉 레시피와 2층 인형 얼굴 문까지.</dd></div><div><dt>배운 것</dt><dd>구별되는 매력은 아직 찾는 중.</dd></div></dl>
+            <details class="more"><summary>전체 기록</summary><dl><dt>소개</dt><dd>인형이 되어 마녀의 눈과 귀를 피해 집을 나갑니다. 마녀는 앞만 보지만 발소리와 퍼즐 소리를 듣고 옵니다. 잡히면 피 대신 솜이 빠집니다. 퍼즐은 모두 바느질 테마이고 매 판 바뀝니다.</dd><dt>다음</dt><dd>다락 층 퍼즐, 조력자 토끼 솜이, 인형들의 사연, 엔딩 3종을 더해 2~3시간 분량으로 키웁니다. 만든 사람 이민희.</dd></dl></details>
+            
+          </div>
+        </article>
+        <article class="slide" id="exp-07" role="tabpanel">
+          <div class="slide__media"><img src="assets/img/ice-title.webp" width="1400" height="788" alt="얼음섬 술래잡기 타이틀 화면. 얼음 섬 위의 펭귄과 상어, 왼쪽의 시작 메뉴" loading="lazy"><p class="quote"><b>팀 내부 질의응답</b>갈매기가 물고기를 무작위로 빼앗으면 실력 경쟁이 운으로 갈린다.</p></div>
+          <div class="slide__body">
+            <span class="tag" style="--c: var(--c08)"><i></i>EXP.07 <span>2026.10 · 웹 · 아트 1명</span></span>
+            <h3 class="d">얼음섬 술래잡기</h3>
+            <dl class="facts"><div><dt>결과</dt><dd>아트 담당 1명이 3일 만에 제작, 5일 만에 온라인 공개. v5까지.</dd></div><div><dt>배운 것</dt><dd>펭귄 승률 95%를 잡으려 넣은 갈매기가 새 논쟁이 됐다.</dd></div></dl>
+            <details class="more"><summary>전체 기록</summary><dl><dt>소개</dt><dd>펭귄은 물고기를 둥지에 나르고, 상어는 그림자를 보고 쫓습니다. 동기들에게 노트북을 건네 받은 의견을 반영해 v5까지 왔습니다.</dd></dl></details>
+            <p class="links"><a href="https://ice-island.onrender.com/" rel="noopener" target="_blank">웹에서 플레이 ↗</a></p>
+          </div>
+        </article>
+        <article class="slide" id="exp-06" role="tabpanel">
+          <div class="slide__media"><img src="assets/img/parry-key2.webp" width="768" height="429" alt="패링하세요! 키아트" loading="lazy"><p class="quote"><b>플레이 테스트</b>이펙트가 슴슴하다. 적 패턴이 다 똑같다.</p></div>
+          <div class="slide__body">
+            <span class="tag" style="--c: var(--c07)"><i></i>EXP.06 <span>2026.10~ · Roblox · 개발 2, 아트 1</span></span>
+            <h3 class="d">패링하세요!</h3>
+            <dl class="facts"><div><dt>결과</dt><dd>10월 14일 베타 공개. 방문 53회, 추천 2, 비추천 0.</dd></div><div><dt>배운 것</dt><dd>2주 동안 다섯 번 갈아엎었다. 안 바꿀 핵심부터 정해야 한다.</dd></div></dl>
+            <details class="more"><summary>전체 기록</summary><dl><dt>결과</dt><dd>K-푸드 몬스터, 드론 뽑기, 자동 사냥터, 100층 던전, 영어판까지 넣어 베타로 공개했습니다. 결제 상품 10종은 구현을 마치고 등록 전입니다.</dd><dt>회고</dt><dd>5분 만에 전설 칩이 나와 금방 끝나는 문제는 100층 구조와 8단계 등급으로 고쳤습니다.</dd></dl></details>
+            <p class="links"><a href="https://www.roblox.com/games/107469708948792" rel="noopener" target="_blank">Roblox에서 플레이 ↗</a></p>
+          </div>
+        </article>
+        <article class="slide" id="exp-05" role="tabpanel">
+          <div class="slide__media"><img src="assets/img/dm-port.webp" width="1204" height="988" alt="디버그 마스터 플레이 화면" loading="lazy"><p class="quote"><b>내부 점검</b>타격감이 없다. 받아치기가 단조롭다.</p></div>
+          <div class="slide__body">
+            <span class="tag" style="--c: var(--c06)"><i></i>EXP.05 <span>2026.08~ · Roblox → Steam · 개발 1, 아트 1</span></span>
+            <h3 class="d">디버그 마스터</h3>
+            <dl class="facts"><div><dt>결과</dt><dd>10월 12일 Roblox 공개. 봇은 최종 보스까지 완주, 방문은 1회.</dd></div><div><dt>배운 것</dt><dd>봇은 재미와 난이도를 알려 주지 않는다. 사람 플레이 데이터가 필요하다.</dd></div></dl>
+            <details class="more"><summary>전체 기록</summary><dl><dt>결과</dt><dd>0.2부터 0.7까지 전투, 카메라, 구조를 갈아 가며 공개했습니다.</dd><dt>회고</dt><dd>넓은 거리에 문을 흩어 놓은 0.6 구조는 참고하던 게임의 개발팀이 시도했다가 버린 방식이었습니다. 0.7에서 방을 잇는 구조로 바꿨습니다.</dd></dl></details>
+            <p class="links"><a href="https://www.roblox.com/games/80877726107554" rel="noopener" target="_blank">Roblox에서 보기 ↗</a></p>
+          </div>
+        </article>
+        <article class="slide" id="exp-04" role="tabpanel">
+          <div class="slide__media"><img src="assets/img/standoff-vote.webp" width="1400" height="879" alt="STAND OFF 투표 화면" loading="lazy"><p class="quote"><b>게임잼 심사 현장</b>게임이 너무 친절하지 않았다. 튜토리얼이 필요했다.</p></div>
+          <div class="slide__body">
+            <span class="tag" style="--c: var(--c04)"><i></i>EXP.04 <span>2026.07 · GNGC 게임잼 · 2박 3일 · 로컬 LLM</span></span>
+            <h3 class="d">STAND OFF</h3>
+            <dl class="facts"><div><dt>결과</dt><dd>기한 안에 완성, 코드 공개. 한 판 끝까지 돌아간다.</dd></div><div><dt>배운 것</dt><dd>AI 대사가 잘 나오는 것과 사람이 규칙을 이해하는 것은 다른 문제.</dd></div></dl>
+            <details class="more"><summary>전체 기록</summary><dl><dt>소개</dt><dd>사람 1명과 로컬 AI 5명의 6인 마피아 게임. 낮에는 토론과 투표, 밤에는 역할 능력을 씁니다.</dd><dt>이어서</dt><dd>게임잼 뒤에 튜토리얼을 넣었고, 패링하세요!에도 6단계 튜토리얼과 이탈 기록을 넣었습니다.</dd></dl></details>
+            <p class="links"><a href="https://github.com/gngc-5-team/MafiaAI" rel="noopener" target="_blank">GitHub 코드 ↗</a></p>
+          </div>
+        </article>
+        <article class="slide is-on" id="exp-01" role="tabpanel">
+          <div class="slide__media"><div class="trio"><img src="assets/img/basket-play.webp" alt="Basket Survivors 플레이 화면" loading="lazy"><img src="assets/img/redhood-play.webp" alt="RedHood's BasDeck 플레이 화면" loading="lazy"><img src="assets/img/cook-play.webp" alt="요리왕천재 플레이 화면" loading="lazy"></div></div>
+          <div class="slide__body">
+            <span class="tag" style="--c: var(--c01)"><i></i>EXP.01~03 <span>2026.05 · 웹 · 약 10일</span></span>
+            <h3 class="d">개노잼 출품작 3편</h3>
+            <dl class="facts"><div><dt>결과</dt><dd>동아리 첫 게임잼. 대구대 현장 전시·학생 투표에서 2등, 3등.</dd></div></dl>
+            
+            <p class="links"><a href="https://bami0701.itch.io/basket-survivors3team" rel="noopener" target="_blank">Basket Survivors ↗</a><a href="https://dev-neulbo.itch.io/redhoods-basdeck" rel="noopener" target="_blank">RedHood's BasDeck ↗</a><a href="https://yuminbeep.itch.io/1" rel="noopener" target="_blank">요리왕천재 ↗</a></p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 업적 -->
+    <section class="view v-ach" id="v-ach" aria-labelledby="t-ach">
+      <div class="vhead"><h2 id="t-ach" class="d">업적</h2><span class="mono">7 / 11 UNLOCKED</span></div>
+      <ul class="achgrid">
+        <li class="a a--big"><i>★</i><b>창의상</b><span>2026.09 · 대학리그 본선 해커톤 22팀 중</span></li>
+        <li class="a a--big"><i>★</i><b>모두의 창업 2라운드 직행</b><span>2026.09 · 디버그 마스터</span></li>
+        <li class="a"><i>★</i><b>개노잼 2등, 3등</b><span>2026.05</span></li>
+        <li class="a"><i>★</i><b>로컬 AI 게임 완성</b><span>2026.07 · STAND OFF</span></li>
+        <li class="a"><i>★</i><b>Roblox 공개 2편</b><span>2026.10</span></li>
+        <li class="a"><i>★</i><b>아트 담당 단독 제작 2편</b><span>2026.10</span></li>
+        <li class="a"><i>★</i><b>23시간 완성, 시연 약 20명</b><span>2026.11 · 냥도일섬</span></li>
+        <li class="a a--lock"><i>?</i><b>Roblox 방문 500회</b><div class="bar" role="img" aria-label="500회 중 54회, 11월 5일 기준"><i style="width:10.8%"></i></div></li>
+        <li class="a a--lock"><i>?</i><b>첫 유료 결제</b><span>패링하세요!</span></li>
+        <li class="a a--lock"><i>?</i><b>인디 행사 부스 시연</b><span>냥도일섬</span></li>
+        <li class="a a--lock"><i>?</i><b>Steam 찜 7,000건</b><div class="bar" role="img" aria-label="7,000건 중 0건"><i style="width:0"></i></div></li>
+      </ul>
+    </section>
+
+    <!-- 퀘스트 -->
+    <section class="view v-quest" id="v-quest" aria-labelledby="t-quest">
+      <div class="vhead"><h2 id="t-quest" class="d">퀘스트</h2><span class="mono">다음 6개월</span></div>
+      <div class="quests">
+        <article class="q" style="--c: var(--c06)"><p class="q__kind">메인 퀘스트 · EXP.05</p><h3 class="d">디버그 마스터 Steam 출시</h3><p><b>조건</b>2주 재플레이 15%, 다음 날 재방문 7% → Next Fest(2027.06), 7월 출시</p></article>
+        <article class="q" style="--c: var(--c07)"><p class="q__kind">퀘스트 · EXP.06</p><h3 class="d">패링하세요! 첫 결제</h3><p><b>볼 숫자</b>첫 결제, 단계별 이탈, 재방문</p></article>
+        <article class="q" style="--c: var(--c10)"><p class="q__kind">퀘스트 · EXP.12</p><h3 class="d">냥도일섬 부스 시연</h3><p><b>볼 숫자</b>설명 없이 전략을 알아채는 비율</p></article>
+        <article class="q" style="--c: var(--c05)"><p class="q__kind">퀘스트 · EXP.10</p><h3 class="d">Fimbulwinter 발표 빌드</h3><p><b>기한</b>2026.12.15</p></article>
+        <article class="q" style="--c: var(--c09)"><p class="q__kind">퀘스트 · EXP.08</p><h3 class="d">돌하우스 엔딩 3종</h3><p><b>목표</b>다락 층까지, 2~3시간 분량</p></article>
+        <article class="q q--plan"><p class="q__kind">잠긴 퀘스트</p><h3 class="d">구독 실험실</h3><p><b>설계 중</b>새 실험작을 구독자가 먼저 플레이. 방식과 가격 미정</p></article>
+      </div>
+    </section>
+
+    <!-- 파티 -->
+    <section class="view v-party" id="v-party" aria-labelledby="t-party">
+      <div class="vhead"><h2 id="t-party" class="d">파티</h2><span class="mono">5 PLAYERS · LEVEL 0 출신</span></div>
+      <ul class="party">
+        <li class="member"><div class="face" aria-hidden="true">서</div><b>우서혜</b><span>대표 · 공동 팀장 · 아트</span></li>
+        <li class="member"><div class="face" aria-hidden="true">현</div><b>이현준</b><span>공동 팀장 · 개발</span></li>
+        <li class="member"><div class="face" aria-hidden="true">종</div><b>문종훈</b><span>개발</span></li>
+        <li class="member"><div class="face" aria-hidden="true">유</div><b>강유민</b><span>개발</span></li>
+        <li class="member"><div class="face" aria-hidden="true">민</div><b>이민희</b><span>아트</span></li>
+      </ul>
+      <div class="party__foot">
+        <p class="muted">대구대 게임개발 동아리 LEVEL 0에서 만난 학생 창업팀.</p>
+        <p class="links"><a href="https://github.com/gngc-5-team" rel="noopener" target="_blank">GitHub ↗</a><a href="https://itch.io/jam/level0-firstjam-gaenojam" rel="noopener" target="_blank">개노잼 itch.io ↗</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bottom">
+    <p class="keys"><span><kbd>↑</kbd><kbd>↓</kbd>메뉴</span><span><kbd>←</kbd><kbd>→</kbd>넘기기</span><span><kbd>Esc</kbd>닫기</span></p>
+    <div class="bottom__right"><button type="button" class="line-btn" data-docs>심사용 자료</button></div>
+  </footer>
+</div>
+
+<!-- 심사용 자료 창 -->
+<div class="modal" id="docs" aria-hidden="true" inert>
+  <div class="docs__box" role="dialog" aria-modal="true" aria-label="심사용 자료">
+    <div class="modal__bar"><p class="d">심사용 자료</p><div class="modal__tools"><button type="button" data-close>닫기 ✕</button></div></div>
+    <div class="docs__body">
+      <div class="why">
+        <p class="big">8,179</p>
+        <div>
+          <p>Steam 액션 로그라이크 태그 게임이 최근 3년 동안 나온 수 <span class="small-note">SteamDB, 2026.08.22 조회</span></p>
+          <dl style="margin-top:10px">
+            <div><dt>문제</dt><dd>재미와 고객은 만들어 보기 전엔 모릅니다. 한 게임에 오래 걸었다 틀리면 남는 게 없습니다.</dd></div>
+            <div><dt>방법</dt><dd>바꾼다(고객층·플랫폼·기간·팀 구성·AI 범위) → 기록한다(어떤 조건에서 재미와 반응이 나오는지) → 몰아준다(반응 좋은 게임에 인력과 자원).</dd></div>
+            <div><dt>쌓는 것</dt><dd>제작·검사 도구와 반응 기록은 쌓는 중. 세계관과 팬은 아직 목표입니다.</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div><h4>실험에서 얻은 규칙</h4><ol class="rules"><li>말로 고르지 않는다</li><li>규칙은 화면이 설명한다</li><li>짧은 자리에선 쉽게 만든다</li><li>안 바꿀 핵심부터 정한다</li><li>방향은 사람이 붙잡는다</li><li>공개만으론 사람이 안 온다</li></ol></div>
+      <div><h4>실험 조건표 · 13번의 실험</h4><div class="table-wrap" tabindex="0" role="region" aria-label="실험 조건표, 가로로 스크롤할 수 있습니다"><table class="matrix"><thead><tr><th scope="col">실험</th><th scope="col">게임</th><th scope="col">시기</th><th scope="col">겨냥한 사람</th><th scope="col">플랫폼</th><th scope="col">기간·인원</th><th scope="col">AI를 쓴 곳</th><th scope="col">지금</th></tr></thead><tbody>
+<tr><td>01</td><th scope="row">Basket Survivors</th><td>2026.05</td><td>현장 전시를 찾은 학생</td><td>웹</td><td>약 10일, 게임잼 팀</td><td>코드, 사운드 보조</td><td>2등</td></tr>
+<tr><td>02</td><th scope="row">RedHood's BasDeck</th><td>2026.05</td><td>현장 전시를 찾은 학생</td><td>웹</td><td>약 10일, 게임잼 팀</td><td>코드 보조</td><td>3등</td></tr>
+<tr><td>03</td><th scope="row">요리왕천재</th><td>2026.05</td><td>옆자리 친구와 함께 하는 사람</td><td>웹</td><td>약 10일, 게임잼 팀</td><td class="dim">기록 없음</td><td>완료</td></tr>
+<tr><td>04</td><th scope="row">STAND OFF</th><td>2026.07</td><td>게임잼 심사위원, 추리 게임 유저</td><td>PC</td><td>2박 3일, 4명</td><td>게임 속 AI의 대사와 행동</td><td>코드 공개</td></tr>
+<tr><td>05</td><th scope="row">디버그 마스터</th><td>2026.08~</td><td>Steam 코어 액션 유저</td><td>Roblox 검증, Steam 목표</td><td>개발 1, 아트 1</td><td>코드, 이미지, 자동 플레이 검사</td><td>창의상, 진행 중</td></tr>
+<tr><td>06</td><th scope="row">패링하세요!</th><td>2026.10~</td><td>Roblox 어린 이용자</td><td>Roblox PC·휴대폰</td><td>개발 2, 아트 1</td><td>화면 설계, 일부 3D 모델</td><td>베타 운영 중</td></tr>
+<tr><td>07</td><th scope="row">얼음섬 술래잡기</th><td>2026.10</td><td>친구끼리 하는 온라인 술래잡기 유저</td><td>웹</td><td>3일 제작, 아트 1명</td><td>기획 보충, 코드, 그림 다듬기</td><td>프로토타입 v5</td></tr>
+<tr><td>08</td><th scope="row">돌하우스</th><td>2026.10</td><td>공포 게임 유저</td><td>웹</td><td>아트 1명</td><td>코드</td><td>개발 중</td></tr>
+<tr><td>09</td><th scope="row">서바이브 캣잡</th><td>2026.10~</td><td>용과같이 팬, 고양이 애호가, 취준생 중 검증 전</td><td>언리얼 엔진 5.8</td><td>약 2주, 1명</td><td>컨셉 그림, 3D 모델, 개발 보조</td><td>개발 중</td></tr>
+<tr><td>10</td><th scope="row">Fimbulwinter</th><td>2026.10~</td><td>생존·자원 관리 게임 유저</td><td>언리얼 엔진 5.8</td><td>10/12~12/15 계획, 1명</td><td class="dim">기록 없음</td><td>개발 중</td></tr>
+<tr><td>11</td><th scope="row">라인 경매</th><td>2026.10~</td><td class="dim">검증 전</td><td class="dim">미정</td><td>기획 1명</td><td class="dim">미정</td><td>기획 단계</td></tr>
+<tr><td>12</td><th scope="row">냥도일섬</th><td>2026.11</td><td>게임잼 시연자, 액션 유저</td><td>PC, 웹</td><td>약 23시간, 4명</td><td>프로토타입, 개발 보조. 그림은 손으로</td><td>고도화 중</td></tr>
+<tr><td>13</td><th scope="row">둥지들 (가제)</th><td>2026.11~</td><td class="dim">검증 전</td><td class="dim">미정</td><td class="dim">미정</td><td class="dim">미정</td><td>기획 단계</td></tr>
+</tbody></table></div></div>
+      <div><h4>제작 방식</h4><div class="methods">
+            <article><h4>AI가 말하고, 판정은 코드가 한다 <span class="mono muted">EXP.04</span></h4><p>대사는 로컬 LLM, 투표와 승패는 C# 코드가 확정합니다. 8GB VRAM 목표로 실제 프롬프트 5종을 2회씩 비교해 모델을 골랐습니다(로드 약 5.7GB). 오류율 측정과 Windows 8GB GPU 실기기 검증은 남았습니다.</p><p class="links"><a href="https://github.com/gngc-5-team/MafiaAI/blob/605458ba2b08d3df77e39bef4e4ba639787e1718/Assets/MafiaAI/Scripts/Core/GameRules.cs#L60-L159" rel="noopener" target="_blank">판정 코드</a> <a href="https://github.com/gngc-5-team/MafiaAI/blob/605458ba2b08d3df77e39bef4e4ba639787e1718/Assets/MafiaAI/Scripts/LLM/OllamaClient.cs#L55-L102" rel="noopener" target="_blank">LLM 호출 코드</a></p></article>
+            <article><h4>사람이 지시하고, 에이전트가 만들고, 봇이 끝까지 해 본다 <span class="mono muted">EXP.05</span></h4><p>사람이 무엇을 만들지 지시하면 AI 코딩 에이전트가 Roblox Studio를 직접 조작해 만들고, 자동 조종 봇이 처음부터 끝까지 플레이합니다. 0.7 기준 검사 164개 통과, 방 데이터 151구역 문제 0건, 봇이 첫 판에 최종 보스 처치(전투 23회, 342초). 재미와 난이도는 사람 테스트가 필요합니다.</p></article>
+            <article><h4>어디서 그만두는지 게임이 기록한다 <span class="mono muted">EXP.06</span></h4><p>첫 접속부터 첫 뽑기까지 8단계, 던전 방별 진행, 튜토리얼 건너뛰기를 기록합니다. 세션 잠금, 영어 자동 전환(약 370문장). 결제 상품 10종의 지급과 중복 지급 방지를 테스트 구매로 확인했고, 실제 결제 데이터는 아직 없습니다.</p></article>
+          </div></div>
+      <p class="small-note">Roblox 수치는 2026년 11월 5일 공개 수치입니다. 나머지는 팀 회의록과 작업 기록, 회고 자료를 바탕으로 정리했습니다.</p>
     </div>
   </div>
-  <dl class="proof" aria-label="이게제프 한눈에 보기">
-    <div><dd>5명</dd><dt>개발 3, 아트 2, 대구대학교</dt></div>
-    <div><dd>13번의 실험</dd><dt>2026년 5월부터</dt></div>
-    <div><dd>7편</dd><dt>지금 플레이 가능</dt></div>
-    <div><dd>창의상</dd><dt>대학리그 본선 22팀, 총장상</dt></div>
-  </dl>
-</section>
+</div>
 
-<section class="wrap section" aria-labelledby="feat-title">
-  <div class="section__head">
-    <h2 id="feat-title">대표작.</h2>
-    <a class="go" href="games.html">게임 13편 모두 보기</a>
-  </div>
-  <div class="feat">
-    <article class="tile">
-          <a class="tile__art" href="games/nyangdoseom.html" tabindex="-1" aria-hidden="true"><img src="assets/img/nyang-key.webp" width="1600" height="900" alt="" loading="lazy"></a>
-          <div class="tile__meta">
-            <div><h3 class="tile__name">냥도일섬</h3><p class="tile__line">클릭 한 번으로 바다를 가르는 고양이 검객 액션 로그라이트</p></div>
-            <div class="actions"><a class="pill" href="games/nyangdoseom.html">자세히 보기</a><a class="pill pill--solid pill--play" href="play/nyangdoseom/index.html" rel="noopener">플레이</a></div>
-          </div>
-        </article>
-    <div class="feat__side">
-      <article class="tile">
-          <a class="tile__art" href="games/parry.html" tabindex="-1" aria-hidden="true"><img src="assets/img/parry-key.webp" width="768" height="429" alt="" loading="lazy"></a>
-          <div class="tile__meta">
-            <div><h3 class="tile__name">패링하세요!</h3><p class="tile__line">공격을 받아쳐 능력을 빼앗는 Roblox 액션</p></div>
-            <div class="actions"><a class="pill" href="games/parry.html">자세히 보기</a><a class="pill pill--solid pill--play" href="https://www.roblox.com/games/107469708948792" rel="noopener">플레이</a></div>
-          </div>
-        </article>
-      <article class="tile">
-          <a class="tile__art" href="games/ice-tag.html" tabindex="-1" aria-hidden="true"><img src="assets/img/ice-title.webp" width="1400" height="788" alt="" loading="lazy"></a>
-          <div class="tile__meta">
-            <div><h3 class="tile__name">얼음섬 술래잡기</h3><p class="tile__line">상어 1명과 펭귄 4명이 겨루는 온라인 술래잡기</p></div>
-            <div class="actions"><a class="pill" href="games/ice-tag.html">자세히 보기</a><a class="pill pill--solid pill--play" href="https://ice-island.onrender.com/" rel="noopener">플레이</a></div>
-          </div>
-        </article>
-    </div>
-  </div>
-</section>
+<script>
+(function () {
+  var views = ['main', 'games', 'flow', 'lab', 'ach', 'quest', 'party'];
+  var rail = Array.prototype.slice.call(document.querySelectorAll('.rail button'));
+  var bgImgs = Array.prototype.slice.call(document.querySelectorAll('#bg img'));
+  var bg = document.getElementById('bg');
+  var current = 'main', game = 'nyang';
+  function setBg(k, dim) {
+    bgImgs.forEach(function (im) { im.classList.toggle('is-on', im.getAttribute('data-k') === k); });
+    bg.setAttribute('data-dim', dim ? '1' : '0');
+  }
+  function go(v, push) {
+    if (views.indexOf(v) < 0) v = 'main';
+    current = v;
+    views.forEach(function (x) { document.getElementById('v-' + x).classList.toggle('is-on', x === v); });
+    rail.forEach(function (b) { b.setAttribute('aria-current', String(b.getAttribute('data-go') === v)); });
+    if (v === 'main') setBg('main', false);
+    else if (v === 'games') setBg(game, false);
+    else setBg('dim', true);
+    if (push) { try { history.replaceState(null, '', '#' + v); } catch (e) {} }
+  }
+  document.querySelectorAll('[data-go]').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.preventDefault(); go(el.getAttribute('data-go'), true); });
+  });
+  window.addEventListener('hashchange', function () { go(location.hash.slice(1), false); });
 
-<section class="on-night" aria-labelledby="loop-title">
-  <div class="wrap section loop">
-    <p class="label">일하는 방식</p>
-    <h2 id="loop-title">한 게임에 오래 걸지 않습니다. 들은 말을 다음 게임에 넣습니다.</h2>
-    <ul class="chain"><li><p class="chain__game">STAND OFF · 심사 현장</p><p class="chain__said">게임이 너무 친절하지 않았다. 튜토리얼이 필요했다.</p><p class="chain__did">뒤이은 패링하세요!에 6단계 튜토리얼과 이탈 기록을 넣었습니다.</p></li><li><p class="chain__game">냥도일섬 · 멘토 조언</p><p class="chain__said">짧게 해 보는 자리다.</p><p class="chain__did">적 체력 증가를 ×1.5에서 ×1.1로, 후반 적 수를 26마리에서 17마리로 낮췄습니다.</p></li><li><p class="chain__game">Roblox 2편 · 공개 수치</p><p class="chain__said">3주 동안 방문 합계 54회. 공개만으로는 사람이 오지 않았다.</p><p class="chain__did">다음은 게임이 아니라 유입 경로를 나눠 시험합니다.</p></li></ul>
-    <div class="actions"><a class="pill" href="studio.html">스튜디오 소개</a></div>
-  </div>
-</section>
-</main>
-<footer class="wrap foot">
-  <div class="foot__row">
-    <ul class="foot__links"><li><a href="games.html">게임</a></li><li><a href="studio.html">스튜디오</a></li><li><a href="https://github.com/gngc-5-team" rel="noopener">GitHub</a></li><li><a href="https://itch.io/jam/level0-firstjam-gaenojam" rel="noopener">개노잼 itch.io</a></li></ul>
-    <p>이게제프 스튜디오 · 대구대학교 · 법인 설립 전 학생 창업팀</p>
-  </div>
-  <p class="foot__note">Roblox 수치는 2026.11.05 공개 수치입니다.</p>
-</footer>
+  // 게임 선택
+  var thumbs = Array.prototype.slice.call(document.querySelectorAll('.gthumb'));
+  function pick(k) {
+    game = k;
+    thumbs.forEach(function (t) { t.setAttribute('aria-selected', String(t.getAttribute('data-pick') === k)); });
+    document.querySelectorAll('.ginfo').forEach(function (g) { g.classList.toggle('is-on', g.getAttribute('data-g') === k); });
+    if (current === 'games') setBg(k, false);
+  }
+  thumbs.forEach(function (t) { t.addEventListener('click', function () { pick(t.getAttribute('data-pick')); }); });
+
+  // 실험 기록
+  var segs = Array.prototype.slice.call(document.querySelectorAll('.seg'));
+  var ids = segs.map(function (s) { return s.getAttribute('data-s'); });
+  function slide(id) {
+    var k = ids.indexOf(id); if (k < 0) return;
+    ids.forEach(function (sid, j) { document.getElementById(sid).classList.toggle('is-on', j === k); segs[j].setAttribute('aria-selected', String(j === k)); });
+    document.getElementById('lab-n').textContent = (k < 9 ? '0' : '') + (k + 1);
+  }
+  function curSlide() { for (var j = 0; j < segs.length; j++) if (segs[j].getAttribute('aria-selected') === 'true') return j; return 0; }
+  segs.forEach(function (s) { s.addEventListener('click', function () { slide(s.getAttribute('data-s')); }); });
+  document.querySelectorAll('.arrow').forEach(function (a) { a.addEventListener('click', function () { slide(ids[(curSlide() + Number(a.getAttribute('data-step')) + ids.length) % ids.length]); }); });
+  document.querySelectorAll('[data-slide]').forEach(function (a) { a.addEventListener('click', function () { slide(a.getAttribute('data-slide')); }); });
+
+
+  // 작업 방식: 3주(21일) 한 바퀴를 돈다
+  var spin = document.getElementById('loop-spin'), dayEl = document.getElementById('loop-day');
+  var nodes = Array.prototype.slice.call(document.querySelectorAll('.node'));
+  var day = 1, turns = 0;
+  function setDay(d) {
+    day = d;
+    dayEl.textContent = (d < 10 ? '0' : '') + d;
+    spin.style.setProperty('--a', (turns * 360 + (d - 1) / 21 * 360) + 'deg');
+    nodes.forEach(function (n) { n.classList.toggle('is-on', d >= +n.getAttribute('data-from') && d <= +n.getAttribute('data-to')); });
+  }
+  setDay(1);
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    setInterval(function () {
+      if (current !== 'flow' || document.hidden) return;
+      var d = day + 1; if (d > 21) { d = 1; turns++; }
+      setDay(d);
+    }, 450);
+  }
+
+  // 창 열고 닫기
+  var docs = document.getElementById('docs');
+  var lastFocus = null;
+  function open(m) {
+    lastFocus = document.activeElement;
+    m.classList.add('is-open'); m.removeAttribute('inert'); m.setAttribute('aria-hidden', 'false');
+    m.querySelector('[data-close]').focus();
+  }
+  function close(m) {
+    m.classList.remove('is-open'); m.setAttribute('inert', ''); m.setAttribute('aria-hidden', 'true');
+    if (lastFocus) lastFocus.focus();
+  }
+  function openModal() { return docs.classList.contains('is-open') ? docs : null; }
+  document.querySelectorAll('[data-docs]').forEach(function (b) { b.addEventListener('click', function () { open(docs); }); });
+  [docs].forEach(function (m) {
+    m.querySelector('[data-close]').addEventListener('click', function () { close(m); });
+    m.addEventListener('click', function (e) { if (e.target === m) close(m); });
+  });
+
+  // 키보드: 게임 메뉴처럼
+  document.addEventListener('keydown', function (e) {
+    var m = openModal();
+    if (e.key === 'Escape' && m) { close(m); return; }
+    if (m || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.target.closest && e.target.closest('input, textarea, select, summary')) return;
+    var i = views.indexOf(current);
+    if (e.key === 'ArrowDown') { e.preventDefault(); go(views[(i + 1) % views.length], true); rail[(i + 1) % views.length].focus(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); go(views[(i - 1 + views.length) % views.length], true); rail[(i - 1 + views.length) % views.length].focus(); }
+    else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      var d = e.key === 'ArrowRight' ? 1 : -1;
+      if (current === 'lab') slide(ids[(curSlide() + d + ids.length) % ids.length]);
+      else if (current === 'games') {
+        var keys = thumbs.map(function (t) { return t.getAttribute('data-pick'); });
+        pick(keys[(keys.indexOf(game) + d + keys.length) % keys.length]);
+      }
+    }
+  });
+
+  go(location.hash.slice(1) || 'main', false);
+})();
+</script>
 </body>
 </html>
